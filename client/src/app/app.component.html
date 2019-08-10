@@ -1,17 +1,22 @@
 <div class="container" style="text-align:center">
-  <h1>
-    {{ title }}
-  </h1>
+  <div class="row m-4 p-4 title-block">
+    <div class="col"></div>
+    <h1>
+      {{ title }}
+    </h1>
+    <div class="col"></div>
+  </div>
 
-  <div class="row m-4">
+  <div class="row m-4 p-4 option-block">
     <div class="col"></div>
     <app-search-bar></app-search-bar>
     <div class="col"></div>
-  </div>
-  <div class="row m-4">
-    <div class="col"></div>
     <app-options></app-options>
     <div class="col"></div>
+  </div>
+
+  <div class="row m-4 p-4 main-block">
+    <h4>INFO</h4>
   </div>
 </div>
 
