@@ -13,7 +13,6 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    console.log("SUBMIT");
-    this.redditAuthService.get_reddit_json("teamsolomid");
+    this.redditAuthService.authorize("teamsolomid");
   }
 }
