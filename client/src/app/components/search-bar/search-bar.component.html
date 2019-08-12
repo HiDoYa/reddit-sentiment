@@ -1,7 +1,7 @@
 <form #searchForm="ngForm">
   <div class="form-group">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <input
           type="text"
           class="form-control"
@@ -20,17 +20,6 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>{{ current_timeframe }}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-            <button *ngFor="let timeframe of timeframes" (click)="onClickTimeframe(timeframe)" ngbDropdownItem>
-              {{ timeframe }}
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div class="col-md-2">
         <button type="submit" class="btn btn-primary" (click)="onSubmit()">Search!</button>
       </div>

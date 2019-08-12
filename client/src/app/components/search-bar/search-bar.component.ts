@@ -9,8 +9,6 @@ import { RedditAuthService } from "../../services/reddit-auth.service";
 export class SearchBarComponent implements OnInit {
   current_subreddit: string = "";
   current_category: string = "Top";
-  current_timeframe: string = "Of All Time";
-  timeframes = ["Past Hour", "Past 24 Hours", "Past Week", "Past Month", "Past Year", "Of All Time"];
   categories = ["Hot", "Top", "New"];
 
   constructor(private redditAuthService: RedditAuthService) {}
@@ -18,15 +16,11 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    console.log(this.current_category, this.current_timeframe, this.current_subreddit);
-    // this.redditAuthService.authorize("teamsolomid");
+    console.log(this.current_category, this.current_subreddit);
+    let ret = this.redditAuthService.getJson(this.current_subreddit, this.current_category);
   }
 
   onClickCategory(category: string) {
     this.current_category = category;
-  }
-
-  onClickTimeframe(timeframe: string) {
-    this.current_timeframe = timeframe;
   }
 }
