@@ -13,7 +13,7 @@ export class RedditAuthService {
       // If not yet authorized, redirect to reddit (to authorize)
       window.location.replace(
         `https://www.reddit.com/api/v1/authorize?` +
-          `client_id=muT2ZryQBZpbSA` +
+          `client_id=4YzuQQE-yhj8wQ` +
           `&response_type=code` +
           `&state=state` +
           `&redirect_uri=http:/localhost:4200` +
@@ -35,16 +35,16 @@ export class RedditAuthService {
       // Content-Type: application/x-www-form-urlencoded
       // Retrieve access token
       let code = parsedTree.queryParams.code;
-      // let body = {
-      //   grant_type: "authorization_code",
-      //   code: code,
-      //   redirect_uri: "http://localhost:4200"
-      // };
+      let body = {
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: "http://localhost:4200"
+      };
       let header = new HttpHeaders();
       header.set("Content-Type", "application/x-www-form-urlencoded");
       // header.set("Accept", "application/json");
 
-      let body = `grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:4200`;
+      // let body = `grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:4200`;
       this.httpClient
         .post("https://www.reddit.com/api/v1/access_token", body, { headers: header })
         .subscribe(res => console.log(res));

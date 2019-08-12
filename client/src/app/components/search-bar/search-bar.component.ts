@@ -8,11 +8,25 @@ import { RedditAuthService } from "../../services/reddit-auth.service";
 })
 export class SearchBarComponent implements OnInit {
   current_subreddit: string = "";
+  current_category: string = "Top";
+  current_timeframe: string = "Of All Time";
+  timeframes = ["Past Hour", "Past 24 Hours", "Past Week", "Past Month", "Past Year", "Of All Time"];
+  categories = ["Hot", "Top", "New"];
+
   constructor(private redditAuthService: RedditAuthService) {}
 
   ngOnInit() {}
 
   onSubmit() {
-    this.redditAuthService.authorize("teamsolomid");
+    console.log(this.current_category, this.current_timeframe, this.current_subreddit);
+    // this.redditAuthService.authorize("teamsolomid");
+  }
+
+  onClickCategory(category: string) {
+    this.current_category = category;
+  }
+
+  onClickTimeframe(timeframe: string) {
+    this.current_timeframe = timeframe;
   }
 }
