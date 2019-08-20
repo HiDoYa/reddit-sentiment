@@ -17,11 +17,11 @@ from django.contrib import admin
 from django.urls import path
 
 from google_api.views import sentiment_view
-from auth.views import secret_view, reddit_view
+from auth.views import auth_view, reddit_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/analyze', sentiment_view),
-    path('api/secret', secret_view),
+    path('api/auth', auth_view),
     path('', reddit_view)
 ]

@@ -245,30 +245,19 @@ let RedditAuthService = class RedditAuthService {
         this.getToken();
     }
     getToken() {
-        console.log("Get_token");
         if (window.location.search !== "") {
-            // If already authorized, parse the link
+            // If already authorized (user logged into reddit), parse the link
             let parsedTree = this.urlSerializer.parse(window.location.search);
             if ("error" in parsedTree.queryParams) {
                 // Error was found
                 console.log(parsedTree.queryParams.error);
                 return;
             }
-            // ? Can check if state is correct
-            // let state = parsedTree.queryParams.state;
-            // Content-Type: application/x-www-form-urlencoded
-            // Retrieve access token
+            // Parse code and send to backend for authorization
             let code = parsedTree.queryParams.code;
-            let body = `grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:4200`;
-            let client_id = "4YzuQQE-yhj8wQ";
-            // ! Hide this somewhere and import it in?
-            let secret = "rggbYjWuwr3mkd8Fquh30i0hSM4";
-            let header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                "Content-Type": "application/x-www-form-urlencoded",
-                Authorization: "Basic " + btoa(`${client_id}:${secret}`)
-            });
-            this.httpClient.post("https://www.reddit.com/api/v1/access_token", body, { headers: header }).subscribe(res => {
-                console.log(res["access_token"]);
+            console.log("Requesting access token with " + code);
+            this.httpClient.get(`/api/auth?code=${code}`).subscribe(res => {
+                console.log("Access token: " + res);
                 this.access_token = res["access_token"];
             });
         }
@@ -277,11 +266,12 @@ let RedditAuthService = class RedditAuthService {
                 `client_id=4YzuQQE-yhj8wQ` +
                 `&response_type=code` +
                 `&state=state` +
-                `&redirect_uri=http://localhost:4200` +
+                `&redirect_uri=${window.location.origin}` +
                 `&duration=temporary` +
                 `&scope=read`);
         }
     }
+    // TODO Replace this in backend
     getJson(subreddit, category) {
         let header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             "Content-Type": "application/x-www-form-urlencoded",
