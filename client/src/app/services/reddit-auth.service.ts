@@ -23,10 +23,10 @@ export class RedditAuthService {
       }
       // Parse code and send to backend for authorization
       let code = parsedTree.queryParams.code;
-      console.log("Requesting access token with " + code);
+      console.log("Requesting access token with code: " + code);
 
       this.httpClient.get(`/api/auth?code=${code}`).subscribe(res => {
-        console.log("Access token: " + res);
+        console.log("Access token: " + res["access_token"]);
         this.access_token = res["access_token"];
       });
     } else {
