@@ -7,4 +7,16 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   title: string = "Reddit Sentiment";
+  rawInfo: Object;
+  loading = false;
+
+  // Getting sentient analysis info
+  onSentimentInfo(info: Object) {
+    this.rawInfo = info;
+  }
+
+  // If loading
+  onLoading(loading: boolean) {
+    this.loading = loading;
+  }
 }

@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Search!</button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="loading">Search!</button>
       </div>
     </div>
   </div>

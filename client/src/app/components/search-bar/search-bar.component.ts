@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input, SystemJsNgModuleLoaderConfig } from "@angular/core";
 import { RedditAuthService } from "../../services/reddit-auth.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-search-bar",
@@ -7,6 +8,11 @@ import { RedditAuthService } from "../../services/reddit-auth.service";
   styleUrls: ["./search-bar.component.scss"]
 })
 export class SearchBarComponent implements OnInit {
+  @Input() loading: boolean;
+
+  @Output() sentimentInfo = new EventEmitter<Object>();
+  @Output() onLoading = new EventEmitter<Boolean>();
+
   current_subreddit: string = "";
   current_category: string = "Top";
   categories = ["Hot", "Top", "New"];
@@ -16,8 +22,22 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    console.log(this.current_category, this.current_subreddit);
-    let ret = this.redditAuthService.getJson(this.current_subreddit, this.current_category);
+    // If already loading, don't do anything
+    if (this.loading) {
+      return;
+    }
+
+    // Send request
+    let promise: Observable<Object> = this.redditAuthService.getAnalyze(this.current_subreddit, this.current_category);
+
+    // Currently loading
+    this.onLoading.emit(true);
+
+    // When request done, send to parent
+    promise.subscribe(res => {
+      this.sentimentInfo.emit(res);
+      this.onLoading.emit(false);
+    });
   }
 
   onClickCategory(category: string) {

@@ -30,7 +30,18 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 p-4 main-block\">\n    <h4>INFO</h4>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 p-4 main-block\">\n    <div class=\"col-md-12\">\n      <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\"></app-info-display>\n    </div>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/info-display/info-display.component.html":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/info-display/info-display.component.html ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>{{ loading }}</p>\n"
 
 /***/ }),
 
@@ -41,7 +52,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"subreddit-name\"\n          placeholder=\"Enter subreddit here\"\n          [(ngModel)]=\"current_subreddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"subreddit-name\"\n          placeholder=\"Enter subreddit here\"\n          [(ngModel)]=\"current_subreddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"loading\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -103,6 +114,15 @@ __webpack_require__.r(__webpack_exports__);
 let AppComponent = class AppComponent {
     constructor() {
         this.title = "Reddit Sentiment";
+        this.loading = false;
+    }
+    // Getting sentient analysis info
+    onSentimentInfo(info) {
+        this.rawInfo = info;
+    }
+    // If loading
+    onLoading(loading) {
+        this.loading = loading;
     }
 };
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -137,6 +157,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
+/* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
+
 
 
 
@@ -151,12 +173,59 @@ let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__["SearchBarComponent"]],
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__["InfoDisplayComponent"]],
         imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]],
         providers: [],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
     })
 ], AppModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/info-display/info-display.component.scss":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/info-display/info-display.component.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/info-display/info-display.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/components/info-display/info-display.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: InfoDisplayComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfoDisplayComponent", function() { return InfoDisplayComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let InfoDisplayComponent = class InfoDisplayComponent {
+    constructor() { }
+    ngOnInit() { }
+};
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], InfoDisplayComponent.prototype, "rawInfo", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], InfoDisplayComponent.prototype, "loading", void 0);
+InfoDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: "app-info-display",
+        template: __webpack_require__(/*! raw-loader!./info-display.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/info-display/info-display.component.html"),
+        styles: [__webpack_require__(/*! ./info-display.component.scss */ "./src/app/components/info-display/info-display.component.scss")]
+    })
+], InfoDisplayComponent);
 
 
 
@@ -192,14 +261,27 @@ __webpack_require__.r(__webpack_exports__);
 let SearchBarComponent = class SearchBarComponent {
     constructor(redditAuthService) {
         this.redditAuthService = redditAuthService;
+        this.sentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onLoading = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.current_subreddit = "";
         this.current_category = "Top";
         this.categories = ["Hot", "Top", "New"];
     }
     ngOnInit() { }
     onSubmit() {
-        console.log(this.current_category, this.current_subreddit);
-        let ret = this.redditAuthService.getJson(this.current_subreddit, this.current_category);
+        // If already loading, don't do anything
+        if (this.loading) {
+            return;
+        }
+        // Send request
+        let promise = this.redditAuthService.getAnalyze(this.current_subreddit, this.current_category);
+        // Currently loading
+        this.onLoading.emit(true);
+        // When request done, send to parent
+        promise.subscribe(res => {
+            this.sentimentInfo.emit(res);
+            this.onLoading.emit(false);
+        });
     }
     onClickCategory(category) {
         this.current_category = category;
@@ -208,6 +290,15 @@ let SearchBarComponent = class SearchBarComponent {
 SearchBarComponent.ctorParameters = () => [
     { type: _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__["RedditAuthService"] }
 ];
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], SearchBarComponent.prototype, "loading", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], SearchBarComponent.prototype, "sentimentInfo", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], SearchBarComponent.prototype, "onLoading", void 0);
 SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-search-bar",
@@ -278,10 +369,7 @@ let RedditAuthService = class RedditAuthService {
             url: url,
             access_token: this.access_token
         };
-        this.httpClient.post("/api/analyze", body).subscribe(res => {
-            console.log(res);
-            return res;
-        });
+        return this.httpClient.post("/api/analyze", body);
     }
 };
 RedditAuthService.ctorParameters = () => [

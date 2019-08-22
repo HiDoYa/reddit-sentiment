@@ -8,9 +8,10 @@ import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SearchBarComponent } from "./components/search-bar/search-bar.component";
+import { InfoDisplayComponent } from './components/info-display/info-display.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent],
+  declarations: [AppComponent, SearchBarComponent, InfoDisplayComponent],
   imports: [BrowserModule, AppRoutingModule, NgbModule, HttpClientModule, CommonModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]

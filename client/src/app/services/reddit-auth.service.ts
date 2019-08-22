@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UrlSerializer } from "@angular/router";
-import { url } from "inspector";
 
 @Injectable({
   providedIn: "root"
@@ -51,9 +50,6 @@ export class RedditAuthService {
       access_token: this.access_token
     };
 
-    this.httpClient.post("/api/analyze", body).subscribe(res => {
-      console.log(res);
-      return res;
-    });
+    return this.httpClient.post("/api/analyze", body);
   }
 }

@@ -9,12 +9,18 @@
 
   <div class="row m-4 p-4 option-block">
     <div class="col-md-12">
-      <app-search-bar></app-search-bar>
+      <app-search-bar
+        (sentimentInfo)="onSentimentInfo($event)"
+        (onLoading)="onLoading($event)"
+        [loading]="loading"
+      ></app-search-bar>
     </div>
   </div>
 
   <div class="row m-4 p-4 main-block">
-    <h4>INFO</h4>
+    <div class="col-md-12">
+      <app-info-display [loading]="loading" [rawInfo]="rawInfo"></app-info-display>
+    </div>
   </div>
 </div>
 
