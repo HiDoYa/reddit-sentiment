@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UrlSerializer } from "@angular/router";
+import { url } from "inspector";
 
 @Injectable({
   providedIn: "root"
@@ -42,20 +43,17 @@ export class RedditAuthService {
     }
   }
 
-  // TODO Replace this in backend
-  getJson(subreddit: string, category: string) {
-    let header = new HttpHeaders({
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `bearer ${this.access_token}`
-    });
+  // Calls backend to get reddit data and analyze
+  getAnalyze(subreddit: string, category: string) {
+    let url = `https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`;
+    let body = {
+      url: url,
+      access_token: this.access_token
+    };
 
-    this.httpClient
-      .get(`https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`, {
-        headers: header
-      })
-      .subscribe(res => {
-        console.log(res);
-        return res;
-      });
+    this.httpClient.post("/api/analyze", body).subscribe(res => {
+      console.log(res);
+      return res;
+    });
   }
 }

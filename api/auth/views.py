@@ -39,9 +39,3 @@ def auth_view(request):
 
 def reddit_view(request):
     return render(request, "home.html", {})
-
-
-def reddit_info_view(request):
-    # TODO Should request json data from reddit here (instead of requesting diretly from frontend.)
-    # TODO Then, don't need to save access key in front end.
-    print("RUN")

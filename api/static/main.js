@@ -271,17 +271,14 @@ let RedditAuthService = class RedditAuthService {
                 `&scope=read`);
         }
     }
-    // TODO Replace this in backend
-    getJson(subreddit, category) {
-        let header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `bearer ${this.access_token}`
-        });
-        this.httpClient
-            .get(`https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`, {
-            headers: header
-        })
-            .subscribe(res => {
+    // Calls backend to get reddit data and analyze
+    getAnalyze(subreddit, category) {
+        let url = `https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`;
+        let body = {
+            url: url,
+            access_token: this.access_token
+        };
+        this.httpClient.post("/api/analyze", body).subscribe(res => {
             console.log(res);
             return res;
         });
