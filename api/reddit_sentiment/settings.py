@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '68%a_by_!19x@*9o(76c75v&b-5#h5brn9^3_4lq^y+xzg4dia'
+SECRET_KEY = os.environ.get('REDDIT_SENTIMENT_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['reddit-sentiment-dev.us-east-2.elasticbeanstalk.com']
 
 
 # Application definition
