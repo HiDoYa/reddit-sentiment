@@ -8,8 +8,9 @@
 *.pyc
 */__pycache__
 
-# Google api key
+# Secret keys
 key.json
+secret.env
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
@@ -57,3 +58,8 @@ client/typings
 # System Files
 .DS_Store
 Thumbs.db
+
+# Elastic Beanstalk Files
+api/.elasticbeanstalk/*
+api/!.elasticbeanstalk/*.cfg.yml
+api/!.elasticbeanstalk/*.global.yml

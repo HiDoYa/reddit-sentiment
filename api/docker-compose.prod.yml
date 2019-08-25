@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+    static:
+        build: ./nginx
+        ports:
+            - "1337:80"
+        image: nginx
+        depends_on:
+            - web
+
+    web:
+        build: .
+        env_file:
+            - secret.env
+        expose:
+            - "8000"
+        image: reddit_sentiment:latest
+        command: gunicorn reddit_sentiment.wsgi:application --bind 0.0.0.0:8000
