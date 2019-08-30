@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>{{ loading }}</p>\n"
+module.exports = "<div *ngIf=\"showInfo\">\n  <h4>Overall Score: {{ scoreSum }}</h4>\n  <h4>Overall Magnitude: {{ magnitudeSum }}</h4>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -53,6 +53,17 @@ module.exports = "<p>{{ loading }}</p>\n"
 /***/ (function(module, exports) {
 
 module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"subreddit-name\"\n          placeholder=\"Enter subreddit here\"\n          [(ngModel)]=\"current_subreddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"loading\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/single-post-display/single-post-display.component.html":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/single-post-display/single-post-display.component.html ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<!-- <div *ngFor=\"let data of postData\">\n  {{ data[\"detail\"][0][\"text\"] }}\n</div> -->\nHI\n"
 
 /***/ }),
 
@@ -93,7 +104,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".title-block {\n  background-color: #fad6ee;\n}\n\n.main-block {\n  background-color: #dcd6fa;\n}\n\n.option-block {\n  background-color: #d6faec;\n}"
+module.exports = ".title-block {\n  background-color: #fad6ee;\n}\n\n.main-block {\n  background-color: #dcd6fa;\n}\n\n.option-block {\n  background-color: #d6faec;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UseUJBQUE7QUNDRjs7QURFQTtFQUNFLHlCQUFBO0FDQ0Y7O0FERUE7RUFDRSx5QkFBQTtBQ0NGIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRpdGxlLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2ZhZDZlZTtcbn1cblxuLm1haW4tYmxvY2sge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZGNkNmZhO1xufVxuXG4ub3B0aW9uLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2Q2ZmFlYztcbn1cbiIsIi50aXRsZS1ibG9jayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmYWQ2ZWU7XG59XG5cbi5tYWluLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2RjZDZmYTtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNkNmZhZWM7XG59Il19 */"
 
 /***/ }),
 
@@ -158,6 +169,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
 /* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
+/* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+
 
 
 
@@ -173,7 +186,7 @@ let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__["InfoDisplayComponent"]],
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_11__["SinglePostDisplayComponent"]],
         imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]],
         providers: [],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
@@ -191,7 +204,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvaW5mby1kaXNwbGF5L2luZm8tZGlzcGxheS5jb21wb25lbnQuc2NzcyJ9 */"
 
 /***/ }),
 
@@ -210,8 +223,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let InfoDisplayComponent = class InfoDisplayComponent {
-    constructor() { }
+    constructor() {
+        this.showInfo = false;
+    }
     ngOnInit() { }
+    isEmpty(obj) {
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    ngOnChanges() {
+        if (!this.isEmpty(this.rawInfo)) {
+            this.showInfo = true;
+            console.log(this.rawInfo);
+            //TODO Also calculate the average
+            // Reset
+            this.magnitudeSum = 0;
+            this.scoreSum = 0;
+            this.filteredInfo = [];
+            // Add to sums and filter for substantive data
+            Object.keys(this.rawInfo).forEach(key => {
+                this.scoreSum += this.rawInfo[key]["overall_score"];
+                this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
+                if (this.rawInfo[key]["detail"].length !== 0) {
+                    this.filteredInfo.push(this.rawInfo[key]);
+                }
+            });
+        }
+    }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
@@ -238,7 +280,7 @@ InfoDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2VhcmNoLWJhci9zZWFyY2gtYmFyLmNvbXBvbmVudC5zY3NzIn0= */"
 
 /***/ }),
 
@@ -306,6 +348,50 @@ SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         styles: [__webpack_require__(/*! ./search-bar.component.scss */ "./src/app/components/search-bar/search-bar.component.scss")]
     })
 ], SearchBarComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/single-post-display/single-post-display.component.scss":
+/*!***********************************************************************************!*\
+  !*** ./src/app/components/single-post-display/single-post-display.component.scss ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/single-post-display/single-post-display.component.ts":
+/*!*********************************************************************************!*\
+  !*** ./src/app/components/single-post-display/single-post-display.component.ts ***!
+  \*********************************************************************************/
+/*! exports provided: SinglePostDisplayComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SinglePostDisplayComponent", function() { return SinglePostDisplayComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let SinglePostDisplayComponent = class SinglePostDisplayComponent {
+    constructor() { }
+    ngOnInit() { }
+};
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], SinglePostDisplayComponent.prototype, "postData", void 0);
+SinglePostDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: "app-single-post-display",
+        template: __webpack_require__(/*! raw-loader!./single-post-display.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/single-post-display/single-post-display.component.html"),
+        styles: [__webpack_require__(/*! ./single-post-display.component.scss */ "./src/app/components/single-post-display/single-post-display.component.scss")]
+    })
+], SinglePostDisplayComponent);
 
 
 
@@ -453,3 +539,4 @@ module.exports = __webpack_require__(/*! /Users/hidoya/Code/reddit-sentiment/cli
 /***/ })
 
 },[[0,"runtime","vendor"]]]);
+//# sourceMappingURL=main.js.map

@@ -9,9 +9,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SearchBarComponent } from "./components/search-bar/search-bar.component";
 import { InfoDisplayComponent } from './components/info-display/info-display.component';
+import { SinglePostDisplayComponent } from './components/single-post-display/single-post-display.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent, InfoDisplayComponent],
+  declarations: [AppComponent, SearchBarComponent, InfoDisplayComponent, SinglePostDisplayComponent],
   imports: [BrowserModule, AppRoutingModule, NgbModule, HttpClientModule, CommonModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]

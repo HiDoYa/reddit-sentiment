@@ -1,1 +1,7 @@
-<p>{{ loading }}</p>
+<div *ngIf="showInfo">
+  <h4>Overall Score: {{ scoreSum }}</h4>
+  <h4>Overall Magnitude: {{ magnitudeSum }}</h4>
+  <div *ngFor="let info of filteredInfo">
+    <app-single-post-display [postData]="info['detail']"></app-single-post-display>
+  </div>
+</div>
