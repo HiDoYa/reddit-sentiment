@@ -9,6 +9,7 @@ export class AppComponent {
   title: string = "Reddit Sentiment";
   rawInfo: Object;
   loading = false;
+  subredditTitle: string;
 
   // Getting sentient analysis info
   onSentimentInfo(info: Object) {
@@ -18,5 +19,9 @@ export class AppComponent {
   // If loading
   onLoading(loading: boolean) {
     this.loading = loading;
+  }
+
+  onSubredditTitle(subredditTitle: string) {
+    this.subredditTitle = subredditTitle;
   }
 }

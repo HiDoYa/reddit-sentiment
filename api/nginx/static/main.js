@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (subredditTitle)=\"onSubredditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [subredditTitle]=\"subredditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showInfo\">\n  <h3>Title</h3>\n  <h4 class=\"mt-4\">Sum of Scores: {{ scoreSum.toFixed(4) }}</h4>\n  <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n  <h4 class=\"mb-4\">Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"showInfo\">\n  <h3 class=\"mt-2\">{{ subredditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of postData\"\n    placement=\"right\"\n    ngbTooltip=\"{{ formatTooltip(data) }}\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
+module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent\n      >Score: {{ titleData[\"score\"].toFixed(4) }}<br />\n      Magnitude: {{ titleData[\"magnitude\"].toFixed(4) }}</ng-template\n    >\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent\n      >Score: {{ data[\"score\"].toFixed(4) }}<br />\n      Magnitude: {{ data[\"magnitude\"].toFixed(4) }}</ng-template\n    >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
 
 /***/ }),
 
@@ -134,6 +134,9 @@ let AppComponent = class AppComponent {
     // If loading
     onLoading(loading) {
         this.loading = loading;
+    }
+    onSubredditTitle(subredditTitle) {
+        this.subredditTitle = subredditTitle;
     }
 };
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -240,27 +243,31 @@ let InfoDisplayComponent = class InfoDisplayComponent {
             this.showInfo = true;
             console.log(this.rawInfo);
             // Reset
-            this.magnitudeSum = 0;
-            this.scoreSum = 0;
+            let magnitudeSum = 0;
+            let scoreSum = 0;
             let numberTotal = 0;
             this.filteredInfo = [];
             // Add to sums and filter for substantive data
             Object.keys(this.rawInfo).forEach(key => {
+                // Check that the data is not empty
                 if (this.rawInfo[key]["detail"].length !== 0) {
                     this.filteredInfo.push(this.rawInfo[key]);
                     numberTotal++;
-                    this.scoreSum += this.rawInfo[key]["overall_score"];
-                    this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
+                    scoreSum += this.rawInfo[key]["overall_score"];
+                    magnitudeSum += this.rawInfo[key]["overall_magnitude"];
                 }
             });
-            this.scoreAvg = this.scoreSum / numberTotal;
-            this.magnitudeAvg = this.magnitudeSum / numberTotal;
+            this.scoreAvg = scoreSum / numberTotal;
+            this.magnitudeAvg = magnitudeSum / numberTotal;
         }
     }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "rawInfo", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], InfoDisplayComponent.prototype, "subredditTitle", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "loading", void 0);
@@ -308,6 +315,7 @@ let SearchBarComponent = class SearchBarComponent {
         this.redditAuthService = redditAuthService;
         this.sentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onLoading = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.subredditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.current_subreddit = "";
         this.current_category = "Top";
         this.categories = ["Hot", "Top", "New"];
@@ -322,6 +330,7 @@ let SearchBarComponent = class SearchBarComponent {
         let promise = this.redditAuthService.getAnalyze(this.current_subreddit, this.current_category);
         // Currently loading
         this.onLoading.emit(true);
+        this.subredditTitle.emit(this.current_subreddit);
         // When request done, send to parent
         promise.subscribe(res => {
             this.sentimentInfo.emit(res);
@@ -344,6 +353,9 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], SearchBarComponent.prototype, "onLoading", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], SearchBarComponent.prototype, "subredditTitle", void 0);
 SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-search-bar",
@@ -363,7 +375,7 @@ SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".single-line-in-post:hover {\n  text-shadow: -0.06ex 0 black, 0.06ex 0 black;\n}\n\n.single-post {\n  background-color: #e6e6e6;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZS1wb3N0LWRpc3BsYXkvc2luZ2xlLXBvc3QtZGlzcGxheS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUVFLDRDQUFBO0FDREo7O0FES0E7RUFDRSx5QkFBQTtBQ0ZGIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGUtcG9zdC1kaXNwbGF5L3NpbmdsZS1wb3N0LWRpc3BsYXkuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2luZ2xlLWxpbmUtaW4tcG9zdCB7XG4gICY6aG92ZXIge1xuICAgIC8vIFVzZSBpbnN0ZWFkIG9mIGJvbGRpbmcgaW4gb3JkZXIgdG8gcHJlc2VydmUgd2lkdGhcbiAgICB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbiAgfVxufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZTZlNmU2O1xufVxuIiwiLnNpbmdsZS1saW5lLWluLXBvc3Q6aG92ZXIge1xuICB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbn1cblxuLnNpbmdsZS1wb3N0IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2U2ZTZlNjtcbn0iXX0= */"
+module.exports = ".single-line-in-post:hover {\n  font-weight: bold;\n}\n\n.single-post {\n  background-color: #e6e6e6;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZS1wb3N0LWRpc3BsYXkvc2luZ2xlLXBvc3QtZGlzcGxheS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUdFLGlCQUFBO0FDRko7O0FETUE7RUFDRSx5QkFBQTtBQ0hGIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGUtcG9zdC1kaXNwbGF5L3NpbmdsZS1wb3N0LWRpc3BsYXkuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2luZ2xlLWxpbmUtaW4tcG9zdCB7XG4gICY6aG92ZXIge1xuICAgIC8vIFVzZSBpbnN0ZWFkIG9mIGJvbGRpbmcgaW4gb3JkZXIgdG8gcHJlc2VydmUgd2lkdGhcbiAgICAvLyB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgfVxufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZTZlNmU2O1xufVxuIiwiLnNpbmdsZS1saW5lLWluLXBvc3Q6aG92ZXIge1xuICBmb250LXdlaWdodDogYm9sZDtcbn1cblxuLnNpbmdsZS1wb3N0IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2U2ZTZlNjtcbn0iXX0= */"
 
 /***/ }),
 
@@ -384,17 +396,34 @@ __webpack_require__.r(__webpack_exports__);
 let SinglePostDisplayComponent = class SinglePostDisplayComponent {
     constructor() { }
     ngOnInit() { }
-    formatTooltip(data) {
-        return `Score: ${data["score"].toFixed(4)}
-    Magnitude: ${data["magnitude"].toFixed(4)}`;
+    ngOnChanges() {
+        // Split postData into title and normal text
+        this.titleData = this.postData[0];
+        this.bodyData = JSON.parse(JSON.stringify(this.postData));
+        this.bodyData.shift();
     }
-    // TODO Add gradient of colors (based on arr?)
     colorize(num) {
-        if (num < 0) {
-            return "red";
+        let colors = ["#20df00", "#40bf00", "#609f00", "#7f8000", "#9f6000", "#bf4000", "#df2000"];
+        if (num < -1) {
+            return colors[6];
+        }
+        else if (num < -0.6) {
+            return colors[5];
+        }
+        else if (num < -0.3) {
+            return colors[4];
+        }
+        else if (num < 0) {
+            return colors[3];
+        }
+        else if (num < 0.3) {
+            return colors[2];
+        }
+        else if (num < 0.6) {
+            return colors[1];
         }
         else {
-            return "green";
+            return colors[0];
         }
     }
 };

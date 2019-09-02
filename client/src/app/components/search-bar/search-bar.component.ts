@@ -12,6 +12,7 @@ export class SearchBarComponent implements OnInit {
 
   @Output() sentimentInfo = new EventEmitter<Object>();
   @Output() onLoading = new EventEmitter<Boolean>();
+  @Output() subredditTitle = new EventEmitter<string>();
 
   current_subreddit: string = "";
   current_category: string = "Top";
@@ -32,6 +33,7 @@ export class SearchBarComponent implements OnInit {
 
     // Currently loading
     this.onLoading.emit(true);
+    this.subredditTitle.emit(this.current_subreddit);
 
     // When request done, send to parent
     promise.subscribe(res => {

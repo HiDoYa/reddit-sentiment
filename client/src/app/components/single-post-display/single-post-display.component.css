@@ -1,5 +1,5 @@
 .single-line-in-post:hover {
-  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+  font-weight: bold;
 }
 
 .single-post {

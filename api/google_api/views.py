@@ -25,7 +25,9 @@ def sentiment_view(request):
     # Repeat for each text
     for idx, text in enumerate(texts):
         document = types.Document(
-            content=text, type=enums.Document.Type.PLAIN_TEXT)
+            content=text,
+            language="EN",
+            type=enums.Document.Type.PLAIN_TEXT)
 
         sentiment = client.analyze_sentiment(document=document)
 
@@ -86,7 +88,7 @@ def fetch_posts(request):
         # Parse main text. Remove any links or &amp;...;
         # Remove non-english letters
         main_text = eachEle["data"]["title"] + \
-            ' ' + eachEle["data"]["selftext"]
+            '. ' + eachEle["data"]["selftext"]
         main_text = re.sub(r'[^\x00-\x7f]', r'', main_text)
         main_text = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
                            main_text)

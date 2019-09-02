@@ -1,7 +1,8 @@
 .single-line-in-post {
   &:hover {
     // Use instead of bolding in order to preserve width
-    text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+    // text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+    font-weight: bold;
   }
 }
 

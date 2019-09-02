@@ -1,8 +1,9 @@
 <div *ngIf="showInfo">
-  <h3>Title</h3>
-  <h4 class="mt-4">Sum of Scores: {{ scoreSum.toFixed(4) }}</h4>
-  <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>
-  <h4 class="mb-4">Average Score: {{ scoreAvg.toFixed(4) }}</h4>
+  <h3 class="mt-2">{{ subredditTitle }}</h3>
+  <div class="mt-4 mb-4">
+    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>
+    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>
+  </div>
   <div *ngFor="let info of filteredInfo">
     <app-single-post-display [postData]="info['detail']"></app-single-post-display>
   </div>

@@ -1,11 +1,22 @@
 <div class="p-4 mt-3 mb-3 single-post">
+  <h5 class="single-line-in-post" placement="right" [ngbTooltip]="titleTipContent" [style.color]="colorize(titleData['score'])">
+    <ng-template #titleTipContent
+      >Score: {{ titleData["score"].toFixed(4) }}<br />
+      Magnitude: {{ titleData["magnitude"].toFixed(4) }}</ng-template
+    >
+    {{ titleData["text"] }}
+  </h5>
   <span
     class="single-line-in-post"
-    *ngFor="let data of postData"
+    *ngFor="let data of bodyData"
     placement="right"
-    ngbTooltip="{{ formatTooltip(data) }}"
+    [ngbTooltip]="baseTipContent"
     [style.color]="colorize(data['score'])"
   >
+    <ng-template #baseTipContent
+      >Score: {{ data["score"].toFixed(4) }}<br />
+      Magnitude: {{ data["magnitude"].toFixed(4) }}</ng-template
+    >
     {{ data["text"] }}
   </span>
 </div>

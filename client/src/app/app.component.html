@@ -12,13 +12,14 @@
       <app-search-bar
         (sentimentInfo)="onSentimentInfo($event)"
         (onLoading)="onLoading($event)"
+        (subredditTitle)="onSubredditTitle($event)"
         [loading]="loading"
       ></app-search-bar>
     </div>
   </div>
 
   <div class="row m-4 main-block">
-    <app-info-display [loading]="loading" [rawInfo]="rawInfo"></app-info-display>
+    <app-info-display [loading]="loading" [rawInfo]="rawInfo" [subredditTitle]="subredditTitle"></app-info-display>
   </div>
 </div>
 
