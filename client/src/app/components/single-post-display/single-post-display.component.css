@@ -1,0 +1,7 @@
+.single-line-in-post:hover {
+  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+}
+
+.single-post {
+  background-color: #e6e6e6;
+}

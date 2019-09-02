@@ -10,8 +10,10 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   @Input() loading: boolean;
 
   showInfo = false;
-  magnitudeSum: Number;
-  scoreSum: Number;
+  magnitudeSum: number;
+  scoreSum: number;
+  magnitudeAvg: number;
+  scoreAvg: number;
   filteredInfo: Array<Object>;
 
   constructor() {}
@@ -32,21 +34,24 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
       this.showInfo = true;
       console.log(this.rawInfo);
 
-      //TODO Also calculate the average
-
       // Reset
       this.magnitudeSum = 0;
       this.scoreSum = 0;
+      let numberTotal = 0;
       this.filteredInfo = [];
 
       // Add to sums and filter for substantive data
       Object.keys(this.rawInfo).forEach(key => {
-        this.scoreSum += this.rawInfo[key]["overall_score"];
-        this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
         if (this.rawInfo[key]["detail"].length !== 0) {
           this.filteredInfo.push(this.rawInfo[key]);
+          numberTotal++;
+          this.scoreSum += this.rawInfo[key]["overall_score"];
+          this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
         }
       });
+
+      this.scoreAvg = this.scoreSum / numberTotal;
+      this.magnitudeAvg = this.magnitudeSum / numberTotal;
     }
   }
 }

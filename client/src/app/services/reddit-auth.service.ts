@@ -44,6 +44,13 @@ export class RedditAuthService {
 
   // Calls backend to get reddit data and analyze
   getAnalyze(subreddit: string, category: string) {
+    // If uses full link, only get the subreddit name
+    if (subreddit.includes("reddit.com")) {
+      let loc = new URL(subreddit);
+      let pathArr = loc.pathname.split("/");
+      // Make sure that
+    }
+
     let url = `https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`;
     let body = {
       url: url,

@@ -11,4 +11,18 @@ export class SinglePostDisplayComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  formatTooltip(data: Object) {
+    return `Score: ${data["score"].toFixed(4)}
+    Magnitude: ${data["magnitude"].toFixed(4)}`;
+  }
+
+  // TODO Add gradient of colors (based on arr?)
+  colorize(num: Number) {
+    if (num < 0) {
+      return "red";
+    } else {
+      return "green";
+    }
+  }
 }
