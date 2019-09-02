@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 p-4 main-block\">\n    <div class=\"col-md-12\">\n      <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\"></app-info-display>\n    </div>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showInfo\">\n  <h4>Overall Score: {{ scoreSum }}</h4>\n  <h4>Overall Magnitude: {{ magnitudeSum }}</h4>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"showInfo\">\n  <h3>Title</h3>\n  <h4 class=\"mt-4\">Sum of Scores: {{ scoreSum.toFixed(4) }}</h4>\n  <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n  <h4 class=\"mb-4\">Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div *ngFor=\"let data of postData\">\n  {{ data[\"detail\"][0][\"text\"] }}\n</div> -->\nHI\n"
+module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of postData\"\n    placement=\"right\"\n    ngbTooltip=\"{{ formatTooltip(data) }}\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
 
 /***/ }),
 
@@ -104,7 +104,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".title-block {\n  background-color: #fad6ee;\n}\n\n.main-block {\n  background-color: #dcd6fa;\n}\n\n.option-block {\n  background-color: #d6faec;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UseUJBQUE7QUNDRjs7QURFQTtFQUNFLHlCQUFBO0FDQ0Y7O0FERUE7RUFDRSx5QkFBQTtBQ0NGIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRpdGxlLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2ZhZDZlZTtcbn1cblxuLm1haW4tYmxvY2sge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZGNkNmZhO1xufVxuXG4ub3B0aW9uLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2Q2ZmFlYztcbn1cbiIsIi50aXRsZS1ibG9jayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmYWQ2ZWU7XG59XG5cbi5tYWluLWJsb2NrIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2RjZDZmYTtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNkNmZhZWM7XG59Il19 */"
+module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG4iLCIub3B0aW9uLWJsb2NrIHtcbiAgYm9yZGVyOiAwLjE1ZW0gc29saWQgI2I3YjdiNztcbn0iXX0= */"
 
 /***/ }),
 
@@ -239,19 +239,22 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         if (!this.isEmpty(this.rawInfo)) {
             this.showInfo = true;
             console.log(this.rawInfo);
-            //TODO Also calculate the average
             // Reset
             this.magnitudeSum = 0;
             this.scoreSum = 0;
+            let numberTotal = 0;
             this.filteredInfo = [];
             // Add to sums and filter for substantive data
             Object.keys(this.rawInfo).forEach(key => {
-                this.scoreSum += this.rawInfo[key]["overall_score"];
-                this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
                 if (this.rawInfo[key]["detail"].length !== 0) {
                     this.filteredInfo.push(this.rawInfo[key]);
+                    numberTotal++;
+                    this.scoreSum += this.rawInfo[key]["overall_score"];
+                    this.magnitudeSum += this.rawInfo[key]["overall_magnitude"];
                 }
             });
+            this.scoreAvg = this.scoreSum / numberTotal;
+            this.magnitudeAvg = this.magnitudeSum / numberTotal;
         }
     }
 };
@@ -360,7 +363,7 @@ SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIn0= */"
+module.exports = ".single-line-in-post:hover {\n  text-shadow: -0.06ex 0 black, 0.06ex 0 black;\n}\n\n.single-post {\n  background-color: #e6e6e6;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZS1wb3N0LWRpc3BsYXkvc2luZ2xlLXBvc3QtZGlzcGxheS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUVFLDRDQUFBO0FDREo7O0FES0E7RUFDRSx5QkFBQTtBQ0ZGIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGUtcG9zdC1kaXNwbGF5L3NpbmdsZS1wb3N0LWRpc3BsYXkuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2luZ2xlLWxpbmUtaW4tcG9zdCB7XG4gICY6aG92ZXIge1xuICAgIC8vIFVzZSBpbnN0ZWFkIG9mIGJvbGRpbmcgaW4gb3JkZXIgdG8gcHJlc2VydmUgd2lkdGhcbiAgICB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbiAgfVxufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZTZlNmU2O1xufVxuIiwiLnNpbmdsZS1saW5lLWluLXBvc3Q6aG92ZXIge1xuICB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbn1cblxuLnNpbmdsZS1wb3N0IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2U2ZTZlNjtcbn0iXX0= */"
 
 /***/ }),
 
@@ -381,6 +384,19 @@ __webpack_require__.r(__webpack_exports__);
 let SinglePostDisplayComponent = class SinglePostDisplayComponent {
     constructor() { }
     ngOnInit() { }
+    formatTooltip(data) {
+        return `Score: ${data["score"].toFixed(4)}
+    Magnitude: ${data["magnitude"].toFixed(4)}`;
+    }
+    // TODO Add gradient of colors (based on arr?)
+    colorize(num) {
+        if (num < 0) {
+            return "red";
+        }
+        else {
+            return "green";
+        }
+    }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
@@ -450,9 +466,9 @@ let RedditAuthService = class RedditAuthService {
     }
     // Calls backend to get reddit data and analyze
     getAnalyze(subreddit, category) {
-        let url = `https://oauth.reddit.com/r/${subreddit.toLowerCase()}/${category.toLowerCase()}.json?limit=100`;
         let body = {
-            url: url,
+            subreddit: subreddit,
+            category: category,
             access_token: this.access_token
         };
         return this.httpClient.post("/api/analyze", body);
