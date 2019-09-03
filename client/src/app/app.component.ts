@@ -1,15 +1,24 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { RedditAuthService } from "./services/reddit-auth.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title: string = "Reddit Sentiment";
   rawInfo: Object;
   loading = false;
   subredditTitle: string;
+
+  constructor(private redditAuthService: RedditAuthService) {}
+
+  ngOnInit() {}
+
+  onReauthClick() {
+    this.redditAuthService.gotoRedditOauth();
+  }
 
   // Getting sentient analysis info
   onSentimentInfo(info: Object) {

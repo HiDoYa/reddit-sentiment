@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, SystemJsNgModuleLoaderConfig } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { RedditAuthService } from "../../services/reddit-auth.service";
 import { Observable } from "rxjs";
 

@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (subredditTitle)=\"onSubredditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [subredditTitle]=\"subredditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-2\" (click)=\"onReauthClick()\">\n      Reauthenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (subredditTitle)=\"onSubredditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [subredditTitle]=\"subredditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -120,12 +120,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/reddit-auth.service */ "./src/app/services/reddit-auth.service.ts");
+
 
 
 let AppComponent = class AppComponent {
-    constructor() {
+    constructor(redditAuthService) {
+        this.redditAuthService = redditAuthService;
         this.title = "Reddit Sentiment";
         this.loading = false;
+    }
+    ngOnInit() { }
+    onReauthClick() {
+        this.redditAuthService.gotoRedditOauth();
     }
     // Getting sentient analysis info
     onSentimentInfo(info) {
@@ -139,6 +146,9 @@ let AppComponent = class AppComponent {
         this.subredditTitle = subredditTitle;
     }
 };
+AppComponent.ctorParameters = () => [
+    { type: _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__["RedditAuthService"] }
+];
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-root",
@@ -168,11 +178,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
-/* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
-/* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
+/* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
+/* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+
 
 
 
@@ -189,10 +201,10 @@ let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_9__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_10__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_11__["SinglePostDisplayComponent"]],
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]],
-        providers: [],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_10__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_11__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_12__["SinglePostDisplayComponent"]],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]],
+        providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"]],
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
     })
 ], AppModule);
 
@@ -456,42 +468,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
 
 let RedditAuthService = class RedditAuthService {
-    constructor(httpClient, urlSerializer) {
+    constructor(httpClient, urlSerializer, cookieService) {
         this.httpClient = httpClient;
         this.urlSerializer = urlSerializer;
+        this.cookieService = cookieService;
+        this.access_token = "";
         this.getToken();
     }
     getToken() {
-        if (window.location.search !== "") {
-            // If already authorized (user logged into reddit), parse the link
-            let parsedTree = this.urlSerializer.parse(window.location.search);
-            if ("error" in parsedTree.queryParams) {
-                // Error was found
-                console.log(parsedTree.queryParams.error);
-                return;
-            }
-            // Parse code and send to backend for authorization
-            let code = parsedTree.queryParams.code;
-            console.log("Requesting access token with code: " + code);
-            this.httpClient.get(`/api/auth?code=${code}`).subscribe(res => {
-                console.log("Access token: " + res["access_token"]);
-                this.access_token = res["access_token"];
-            });
+        // If accesstoken stored in cookie service and less than 1 hour passed, use that accesstoken
+        let dateCookie = parseInt(this.cookieService.get("date"));
+        let currentDate = new Date();
+        let dateNow = currentDate.getTime() / 1000;
+        // If around 90% of an hour has passed since last access_token, just get a new access token
+        // If not, use the cookie's access token
+        if ((dateNow - dateCookie) / 3600 < 0.9 && this.cookieService.get("access_token") !== "") {
+            // Use cookie's access token
+            this.access_token = this.cookieService.get("access_token");
+        }
+        else if (window.location.search !== "") {
+            this.getAccessToken();
         }
         else {
-            window.location.replace(`https://www.reddit.com/api/v1/authorize?` +
-                `client_id=4YzuQQE-yhj8wQ` +
-                `&response_type=code` +
-                `&state=state` +
-                `&redirect_uri=${window.location.origin}` +
-                `&duration=temporary` +
-                `&scope=read`);
+            // Need to authenticate
+            this.gotoRedditOauth();
         }
+    }
+    getAccessToken() {
+        // If already authorized (user logged into reddit), parse the link
+        let parsedTree = this.urlSerializer.parse(window.location.search);
+        if ("error" in parsedTree.queryParams) {
+            this.access_token = "ERROR.";
+            return;
+        }
+        // Parse code and send to backend for authorization
+        let code = parsedTree.queryParams.code;
+        this.httpClient.get(`/api/auth?code=${code}`).subscribe(res => {
+            let currentDate = new Date();
+            let secondsPassed = currentDate.getTime() / 1000;
+            this.cookieService.set("access_token", res["access_token"]);
+            this.cookieService.set("date", secondsPassed.toString());
+            // Redirect to mainpage
+            window.location.assign("../");
+        });
+    }
+    gotoRedditOauth() {
+        window.location.replace(`https://www.reddit.com/api/v1/authorize?` +
+            `client_id=4YzuQQE-yhj8wQ` +
+            `&response_type=code` +
+            `&state=state` +
+            `&redirect_uri=${window.location.origin}` +
+            `&duration=temporary` +
+            `&scope=read`);
     }
     // Calls backend to get reddit data and analyze
     getAnalyze(subreddit, category) {
@@ -505,7 +540,8 @@ let RedditAuthService = class RedditAuthService {
 };
 RedditAuthService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["UrlSerializer"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["UrlSerializer"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__["CookieService"] }
 ];
 RedditAuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
