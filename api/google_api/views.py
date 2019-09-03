@@ -92,7 +92,7 @@ def fetch_posts(request):
         main_text = re.sub(r'[^\x00-\x7f]', r'', main_text)
         main_text = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
                            main_text)
-        main_text = re.sub(r'&amp;[^;]*;', '', main_text)
+        main_text = re.sub(r'&[a-zA-Z]+;[^;]+;', '', main_text)
         texts.append(main_text)
 
     return texts
