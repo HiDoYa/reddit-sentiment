@@ -55,21 +55,39 @@ def fetch_posts(request):
     subreddit = req_body["subreddit"]
     category = req_body["category"]
 
+    # Flag for whether this is a comment thread or a general subreddit
+    is_comment = False
+
     if "reddit.com" in subreddit:
         # Check that this is a subreddit. Otherwise, return error
         if "/r/" not in subreddit:
             return "err"
 
+        # Check whether this is a comment thread. (in this case, the string is always an URL)
+        if "/comments/" in subreddit:
+            is_comment = True
+
         # Get subreddit name
         # Look for 'r' and the next element should be subreddit
+        if not is_comment:
+            split_path = subreddit.split('/')
+            for index, path in enumerate(split_path):
+                if path == "r":
+                    subreddit = split_path[index + 1]
+                    break
+
+    if not is_comment:
+        # Get url for subreddit
+        url = "https://oauth.reddit.com/r/{}/{}.json?limit=100".format(
+            subreddit.lower(), category.lower())
+    else:
+        # Get url for comment
         split_path = subreddit.split('/')
         for index, path in enumerate(split_path):
             if path == "r":
-                subreddit = split_path[index + 1]
+                split_path[index - 1] = "oauth.reddit.com"
                 break
-
-    url = "https://oauth.reddit.com/r/{}/{}.json?limit=100".format(
-        subreddit.lower(), category.lower())
+        url = '/'.join(split_path) + ".json?limit=100"
 
     header = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -83,12 +101,20 @@ def fetch_posts(request):
         return "err"
 
     texts = []
+    # If comment, only take the second arr ele
+    if is_comment:
+        r = r[1]
+
     for eachEle in r["data"]["children"]:
         # Also includes title
         # Parse main text. Remove any links or &amp;...;
         # Remove non-english letters
-        main_text = eachEle["data"]["title"] + \
-            '. ' + eachEle["data"]["selftext"]
+        if is_comment:
+            main_text = eachEle["data"]["body"]
+            # TODO Recursively add comments until replies == ""
+        else:
+            main_text = eachEle["data"]["title"] + \
+                '. ' + eachEle["data"]["selftext"]
         main_text = re.sub(r'[^\x00-\x7f]', r'', main_text)
         main_text = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
                            main_text)
