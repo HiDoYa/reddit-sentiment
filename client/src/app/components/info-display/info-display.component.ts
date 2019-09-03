@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-info-display",
@@ -15,7 +16,7 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   scoreAvg: number;
   filteredInfo: Array<Object>;
 
-  constructor() {}
+  constructor(private spinner: NgxSpinnerService) {}
 
   ngOnInit() {}
 
@@ -29,6 +30,12 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    if (this.loading) {
+      this.spinner.show();
+    } else {
+      this.spinner.hide();
+    }
+
     if (!this.isEmpty(this.rawInfo)) {
       this.showInfo = true;
       console.log(this.rawInfo);

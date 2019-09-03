@@ -1,4 +1,4 @@
-<div *ngIf="showInfo">
+<div *ngIf="showInfo && !loading">
   <h3 class="mt-2">{{ subredditTitle }}</h3>
   <div class="mt-4 mb-4">
     <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>
@@ -8,3 +8,6 @@
     <app-single-post-display [postData]="info['detail']"></app-single-post-display>
   </div>
 </div>
+<ngx-spinner bdOpacity="0.3" size="medium" color="#fff" type="ball-climbing-dot" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

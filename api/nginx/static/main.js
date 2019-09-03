@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showInfo\">\n  <h3 class=\"mt-2\">{{ subredditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ subredditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n<ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n  <p style=\"color: white\">Loading...</p>\n</ngx-spinner>\n"
 
 /***/ }),
 
@@ -179,11 +179,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
-/* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
-/* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
+/* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
+/* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+
 
 
 
@@ -201,10 +203,10 @@ let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_10__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_11__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_12__["SinglePostDisplayComponent"]],
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]],
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_11__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_12__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_13__["SinglePostDisplayComponent"]],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"], ngx_spinner__WEBPACK_IMPORTED_MODULE_8__["NgxSpinnerModule"]],
         providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"]],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]]
     })
 ], AppModule);
 
@@ -235,10 +237,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfoDisplayComponent", function() { return InfoDisplayComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+
 
 
 let InfoDisplayComponent = class InfoDisplayComponent {
-    constructor() {
+    constructor(spinner) {
+        this.spinner = spinner;
         this.showInfo = false;
     }
     ngOnInit() { }
@@ -251,6 +256,12 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         return true;
     }
     ngOnChanges() {
+        if (this.loading) {
+            this.spinner.show();
+        }
+        else {
+            this.spinner.hide();
+        }
         if (!this.isEmpty(this.rawInfo)) {
             this.showInfo = true;
             console.log(this.rawInfo);
@@ -274,6 +285,9 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         }
     }
 };
+InfoDisplayComponent.ctorParameters = () => [
+    { type: ngx_spinner__WEBPACK_IMPORTED_MODULE_2__["NgxSpinnerService"] }
+];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "rawInfo", void 0);

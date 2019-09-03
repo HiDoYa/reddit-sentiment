@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { CookieService } from "ngx-cookie-service";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -14,7 +15,7 @@ import { SinglePostDisplayComponent } from "./components/single-post-display/sin
 
 @NgModule({
   declarations: [AppComponent, SearchBarComponent, InfoDisplayComponent, SinglePostDisplayComponent],
-  imports: [BrowserModule, AppRoutingModule, NgbModule, HttpClientModule, CommonModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, NgbModule, HttpClientModule, CommonModule, FormsModule, NgxSpinnerModule],
   providers: [CookieService],
   bootstrap: [AppComponent]
 })
