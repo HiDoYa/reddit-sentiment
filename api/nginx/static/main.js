@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-2\" (click)=\"onReauthClick()\">\n      Reauthenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (subredditTitle)=\"onSubredditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [subredditTitle]=\"subredditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-2\" (click)=\"onReauthClick()\">\n      Reauthenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (redditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [redditTitle]=\"redditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ subredditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n<ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n  <p style=\"color: white\">Loading...</p>\n</ngx-spinner>\n"
+module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ redditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n<ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n  <p style=\"color: white\">Loading...</p>\n</ngx-spinner>\n"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"subreddit-name\"\n          placeholder=\"Enter subreddit here\"\n          [(ngModel)]=\"current_subreddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"loading\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"reddit-name\"\n          placeholder=\"Enter reddit link here\"\n          [(ngModel)]=\"current_reddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"loading\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -142,8 +142,8 @@ let AppComponent = class AppComponent {
     onLoading(loading) {
         this.loading = loading;
     }
-    onSubredditTitle(subredditTitle) {
-        this.subredditTitle = subredditTitle;
+    onRedditTitle(redditTitle) {
+        this.redditTitle = redditTitle;
     }
 };
 AppComponent.ctorParameters = () => [
@@ -293,7 +293,7 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 ], InfoDisplayComponent.prototype, "rawInfo", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
-], InfoDisplayComponent.prototype, "subredditTitle", void 0);
+], InfoDisplayComponent.prototype, "redditTitle", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "loading", void 0);
@@ -341,8 +341,8 @@ let SearchBarComponent = class SearchBarComponent {
         this.redditAuthService = redditAuthService;
         this.sentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onLoading = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this.subredditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this.current_subreddit = "";
+        this.redditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.current_reddit = "";
         this.current_category = "Top";
         this.categories = ["Hot", "Top", "New"];
     }
@@ -353,10 +353,10 @@ let SearchBarComponent = class SearchBarComponent {
             return;
         }
         // Send request
-        let promise = this.redditAuthService.getAnalyze(this.current_subreddit, this.current_category);
+        let promise = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category);
         // Currently loading
         this.onLoading.emit(true);
-        this.subredditTitle.emit(this.current_subreddit);
+        this.redditTitle.emit(this.current_reddit);
         // When request done, send to parent
         promise.subscribe(res => {
             this.sentimentInfo.emit(res);
@@ -381,7 +381,7 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 ], SearchBarComponent.prototype, "onLoading", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
-], SearchBarComponent.prototype, "subredditTitle", void 0);
+], SearchBarComponent.prototype, "redditTitle", void 0);
 SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-search-bar",
@@ -518,8 +518,9 @@ let RedditAuthService = class RedditAuthService {
     getAccessToken() {
         // If already authorized (user logged into reddit), parse the link
         let parsedTree = this.urlSerializer.parse(window.location.search);
+        // If links has error, return
         if ("error" in parsedTree.queryParams) {
-            this.access_token = "ERROR.";
+            this.access_token = "ERROR FOUND.";
             return;
         }
         // Parse code and send to backend for authorization
@@ -543,9 +544,9 @@ let RedditAuthService = class RedditAuthService {
             `&scope=read`);
     }
     // Calls backend to get reddit data and analyze
-    getAnalyze(subreddit, category) {
+    getAnalyze(reddit_str, category) {
         let body = {
-            subreddit: subreddit,
+            reddit_str: reddit_str,
             category: category,
             access_token: this.access_token
         };

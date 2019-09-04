@@ -36,8 +36,9 @@ export class RedditAuthService {
   getAccessToken() {
     // If already authorized (user logged into reddit), parse the link
     let parsedTree = this.urlSerializer.parse(window.location.search);
+    // If links has error, return
     if ("error" in parsedTree.queryParams) {
-      this.access_token = "ERROR.";
+      this.access_token = "ERROR FOUND.";
       return;
     }
     // Parse code and send to backend for authorization
@@ -67,9 +68,9 @@ export class RedditAuthService {
   }
 
   // Calls backend to get reddit data and analyze
-  getAnalyze(subreddit: string, category: string) {
+  getAnalyze(reddit_str: string, category: string) {
     let body = {
-      subreddit: subreddit,
+      reddit_str: reddit_str,
       category: category,
       access_token: this.access_token
     };

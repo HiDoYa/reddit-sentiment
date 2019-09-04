@@ -12,9 +12,9 @@ export class SearchBarComponent implements OnInit {
 
   @Output() sentimentInfo = new EventEmitter<Object>();
   @Output() onLoading = new EventEmitter<Boolean>();
-  @Output() subredditTitle = new EventEmitter<string>();
+  @Output() redditTitle = new EventEmitter<string>();
 
-  current_subreddit: string = "";
+  current_reddit: string = "";
   current_category: string = "Top";
   categories = ["Hot", "Top", "New"];
 
@@ -29,11 +29,11 @@ export class SearchBarComponent implements OnInit {
     }
 
     // Send request
-    let promise: Observable<Object> = this.redditAuthService.getAnalyze(this.current_subreddit, this.current_category);
+    let promise: Observable<Object> = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category);
 
     // Currently loading
     this.onLoading.emit(true);
-    this.subredditTitle.emit(this.current_subreddit);
+    this.redditTitle.emit(this.current_reddit);
 
     // When request done, send to parent
     promise.subscribe(res => {

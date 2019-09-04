@@ -8,7 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class InfoDisplayComponent implements OnChanges, OnInit {
   @Input() rawInfo: Object;
-  @Input() subredditTitle: string;
+  @Input() redditTitle: string;
   @Input() loading: boolean;
 
   showInfo = false;

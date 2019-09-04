@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   title: string = "Reddit Sentiment";
   rawInfo: Object;
   loading = false;
-  subredditTitle: string;
+  redditTitle: string;
 
   constructor(private redditAuthService: RedditAuthService) {}
 
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     this.loading = loading;
   }
 
-  onSubredditTitle(subredditTitle: string) {
-    this.subredditTitle = subredditTitle;
+  onRedditTitle(redditTitle: string) {
+    this.redditTitle = redditTitle;
   }
 }
