@@ -52,42 +52,42 @@ def fetch_posts(request):
     # Loads necessary vars (sent from frontend POST req)
     req_body = json.loads(request.body.decode("utf-8"))
     access_token = req_body["access_token"]
-    subreddit = req_body["subreddit"]
+    reddit_str = req_body["reddit_str"]
     category = req_body["category"]
 
     # Flag for whether this is a comment thread or a general subreddit
     is_comment = False
 
-    if "reddit.com" in subreddit:
+    if "reddit.com" in reddit_str:
         # Check that this is a subreddit. Otherwise, return error
-        if "/r/" not in subreddit:
+        if "/r/" not in reddit_str:
             return "err"
 
         # Check whether this is a comment thread. (in this case, the string is always an URL)
-        if "/comments/" in subreddit:
+        if "/comments/" in reddit_str:
             is_comment = True
 
         # Get subreddit name
         # Look for 'r' and the next element should be subreddit
         if not is_comment:
-            split_path = subreddit.split('/')
+            split_path = reddit_str.split('/')
             for index, path in enumerate(split_path):
                 if path == "r":
-                    subreddit = split_path[index + 1]
+                    reddit_str = split_path[index + 1]
                     break
 
     if not is_comment:
         # Get url for subreddit
         url = "https://oauth.reddit.com/r/{}/{}.json?limit=100".format(
-            subreddit.lower(), category.lower())
+            reddit_str.lower(), category.lower())
     else:
         # Get url for comment
-        split_path = subreddit.split('/')
+        split_path = reddit_str.split('/')
         for index, path in enumerate(split_path):
             if path == "r":
                 split_path[index - 1] = "oauth.reddit.com"
                 break
-        url = '/'.join(split_path) + ".json?limit=100"
+        url = '/'.join(split_path) + ".json?limit=100?sort=" + category
 
     header = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -122,3 +122,15 @@ def fetch_posts(request):
         texts.append(main_text)
 
     return texts
+
+
+def get_children_text(element):
+    # TODO
+    # Make sure that kind == t1 (cant be 'more')
+    # Make sure that no_follow is false
+    replies = element["data"]["replies"]
+    if replies != "":
+        for child_element in replies["data"]["children"]:
+            get_children_text(child_element)
+
+            text = child_element["body"]
