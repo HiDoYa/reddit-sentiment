@@ -1,5 +1,9 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
 
-This webapp allows you to choose any subreddit and see the overall sentiment for the posts on that subreddit. This is created with Angular frontend and Django backend. Google cloud API is used for analysis and reddit API is used to get subreddit texts.
+# Reddit-Sentiment
 
-In the future, this app will be extended to be able to run sentiment analysis on other various parts of reddit such as individual posts or your user account.
+This webapp allows you to choose any subreddit and see the overall sentiment for the posts on that subreddit. This is a fullstack application created with Angular frontend and Django backend. Google Cloud API is used for analysis and Reddit API is used to get texts to analyze. 
+
+The webapp is containerized with Docker-Compose and deployed to an AWS EC2 free-tier instance via Docker Hub. Elastic Beanstalk was removed due to extra costs. It also uses nginx to serve static files and gunicorn as an application server. 
+
+Still in development.
