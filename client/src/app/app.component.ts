@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   title: string = "Reddit Sentiment";
   rawInfo: Object;
   loading = false;
+  error = false;
   redditTitle: string;
 
   constructor(private redditAuthService: RedditAuthService) {}
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {}
 
   onReauthClick() {
+    this.redditAuthService.resetCookie();
     this.redditAuthService.gotoRedditOauth();
   }
 
@@ -32,5 +34,9 @@ export class AppComponent implements OnInit {
 
   onRedditTitle(redditTitle: string) {
     this.redditTitle = redditTitle;
+  }
+
+  onError(error: boolean) {
+    this.error = error;
   }
 }

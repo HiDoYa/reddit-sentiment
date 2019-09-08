@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-2\" (click)=\"onReauthClick()\">\n      Reauthenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (sentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (redditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display [loading]=\"loading\" [rawInfo]=\"rawInfo\" [redditTitle]=\"redditTitle\"></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onSentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ redditTitle }}</h3>\n  <div class=\"mt-4 mb-4\">\n    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n  </div>\n  <div *ngFor=\"let info of filteredInfo\">\n    <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n  </div>\n</div>\n<ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n  <p style=\"color: white\">Loading...</p>\n</ngx-spinner>\n"
+module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"lastError; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n      <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n</ng-template>\n"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<div *ngIf=\"showInfo && !loading\">\n  <h3 class=\"mt-2\">{{ 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"reddit-name\"\n          placeholder=\"Enter reddit link here\"\n          [(ngModel)]=\"current_reddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"loading\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"reddit-name\"\n          placeholder=\"Enter reddit link here\"\n          [(ngModel)]=\"current_reddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"disableClick()\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent\n      >Score: {{ titleData[\"score\"].toFixed(4) }}<br />\n      Magnitude: {{ titleData[\"magnitude\"].toFixed(4) }}</ng-template\n    >\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent\n      >Score: {{ data[\"score\"].toFixed(4) }}<br />\n      Magnitude: {{ data[\"magnitude\"].toFixed(4) }}</ng-template\n    >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
+module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent\n      >Score: {{ titleData[\"score\"].toFixed(3) }}<br />\n      Magnitude: {{ titleData[\"magnitude\"].toFixed(3) }}</ng-template\n    >\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent\n      >Score: {{ data[\"score\"].toFixed(1) }}<br />\n      Magnitude: {{ data[\"magnitude\"].toFixed(1) }}</ng-template\n    >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
 
 /***/ }),
 
@@ -104,7 +104,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG4iLCIub3B0aW9uLWJsb2NrIHtcbiAgYm9yZGVyOiAwLjE1ZW0gc29saWQgI2I3YjdiNztcbn0iXX0= */"
+module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n\n.fullWidth {\n  width: 100%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRjs7QURRQTtFQUNFLFdBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cbiIsIi5vcHRpb24tYmxvY2sge1xuICBib3JkZXI6IDAuMTVlbSBzb2xpZCAjYjdiN2I3O1xufVxuXG4uZnVsbFdpZHRoIHtcbiAgd2lkdGg6IDEwMCU7XG59Il19 */"
 
 /***/ }),
 
@@ -129,9 +129,11 @@ let AppComponent = class AppComponent {
         this.redditAuthService = redditAuthService;
         this.title = "Reddit Sentiment";
         this.loading = false;
+        this.error = false;
     }
     ngOnInit() { }
     onReauthClick() {
+        this.redditAuthService.resetCookie();
         this.redditAuthService.gotoRedditOauth();
     }
     // Getting sentient analysis info
@@ -144,6 +146,9 @@ let AppComponent = class AppComponent {
     }
     onRedditTitle(redditTitle) {
         this.redditTitle = redditTitle;
+    }
+    onError(error) {
+        this.error = error;
     }
 };
 AppComponent.ctorParameters = () => [
@@ -244,7 +249,9 @@ __webpack_require__.r(__webpack_exports__);
 let InfoDisplayComponent = class InfoDisplayComponent {
     constructor(spinner) {
         this.spinner = spinner;
+        this.error = false;
         this.showInfo = false;
+        this.lastError = false;
     }
     ngOnInit() { }
     isEmpty(obj) {
@@ -256,6 +263,7 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         return true;
     }
     ngOnChanges() {
+        this.lastError = this.error;
         if (this.loading) {
             this.spinner.show();
         }
@@ -297,6 +305,9 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "loading", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], InfoDisplayComponent.prototype, "error", void 0);
 InfoDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-info-display",
@@ -339,9 +350,10 @@ __webpack_require__.r(__webpack_exports__);
 let SearchBarComponent = class SearchBarComponent {
     constructor(redditAuthService) {
         this.redditAuthService = redditAuthService;
-        this.sentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onSentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onLoading = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this.redditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onError = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onRedditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.current_reddit = "";
         this.current_category = "Top";
         this.categories = ["Hot", "Top", "New"];
@@ -356,15 +368,26 @@ let SearchBarComponent = class SearchBarComponent {
         let promise = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category);
         // Currently loading
         this.onLoading.emit(true);
-        this.redditTitle.emit(this.current_reddit);
+        this.onError.emit(false);
+        this.onRedditTitle.emit(this.current_reddit);
         // When request done, send to parent
         promise.subscribe(res => {
-            this.sentimentInfo.emit(res);
-            this.onLoading.emit(false);
+            if (res["error"]) {
+                this.onError.emit(true);
+                this.onLoading.emit(false);
+            }
+            else {
+                this.onError.emit(false);
+                this.onSentimentInfo.emit(res);
+                this.onLoading.emit(false);
+            }
         });
     }
     onClickCategory(category) {
         this.current_category = category;
+    }
+    disableClick() {
+        return this.loading || this.redditAuthService.access_token.includes("ERROR");
     }
 };
 SearchBarComponent.ctorParameters = () => [
@@ -375,13 +398,16 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 ], SearchBarComponent.prototype, "loading", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
-], SearchBarComponent.prototype, "sentimentInfo", void 0);
+], SearchBarComponent.prototype, "onSentimentInfo", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], SearchBarComponent.prototype, "onLoading", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
-], SearchBarComponent.prototype, "redditTitle", void 0);
+], SearchBarComponent.prototype, "onError", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], SearchBarComponent.prototype, "onRedditTitle", void 0);
 SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-search-bar",
@@ -401,7 +427,7 @@ SearchBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".single-line-in-post:hover {\n  font-weight: bold;\n}\n\n.single-post {\n  background-color: #e6e6e6;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZS1wb3N0LWRpc3BsYXkvc2luZ2xlLXBvc3QtZGlzcGxheS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUdFLGlCQUFBO0FDRko7O0FETUE7RUFDRSx5QkFBQTtBQ0hGIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGUtcG9zdC1kaXNwbGF5L3NpbmdsZS1wb3N0LWRpc3BsYXkuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2luZ2xlLWxpbmUtaW4tcG9zdCB7XG4gICY6aG92ZXIge1xuICAgIC8vIFVzZSBpbnN0ZWFkIG9mIGJvbGRpbmcgaW4gb3JkZXIgdG8gcHJlc2VydmUgd2lkdGhcbiAgICAvLyB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgfVxufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZTZlNmU2O1xufVxuIiwiLnNpbmdsZS1saW5lLWluLXBvc3Q6aG92ZXIge1xuICBmb250LXdlaWdodDogYm9sZDtcbn1cblxuLnNpbmdsZS1wb3N0IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2U2ZTZlNjtcbn0iXX0= */"
+module.exports = ".single-line-in-post:hover {\n  font-weight: bold;\n}\n\n.single-post {\n  background-color: #0000004d;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlLXBvc3QtZGlzcGxheS9zaW5nbGUtcG9zdC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZS1wb3N0LWRpc3BsYXkvc2luZ2xlLXBvc3QtZGlzcGxheS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUdFLGlCQUFBO0FDRko7O0FETUE7RUFDRSwyQkFBQTtBQ0hGIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGUtcG9zdC1kaXNwbGF5L3NpbmdsZS1wb3N0LWRpc3BsYXkuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2luZ2xlLWxpbmUtaW4tcG9zdCB7XG4gICY6aG92ZXIge1xuICAgIC8vIFVzZSBpbnN0ZWFkIG9mIGJvbGRpbmcgaW4gb3JkZXIgdG8gcHJlc2VydmUgd2lkdGhcbiAgICAvLyB0ZXh0LXNoYWRvdzogLTAuMDZleCAwIGJsYWNrLCAwLjA2ZXggMCBibGFjaztcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgfVxufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwMDAwNGQ7XG59XG4iLCIuc2luZ2xlLWxpbmUtaW4tcG9zdDpob3ZlciB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuXG4uc2luZ2xlLXBvc3Qge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwMDAwNGQ7XG59Il19 */"
 
 /***/ }),
 
@@ -429,27 +455,40 @@ let SinglePostDisplayComponent = class SinglePostDisplayComponent {
         this.bodyData.shift();
     }
     colorize(num) {
-        let colors = ["#20df00", "#40bf00", "#609f00", "#7f8000", "#9f6000", "#bf4000", "#df2000"];
-        if (num < -1) {
-            return colors[6];
+        // From green to red
+        let colors = ["#20df00", "#40bf00", "#609f00", "#a9aea2", "#a9aea2", "#fb6969", "#e6482d", "#ff0000"];
+        // Range:
+        // inf to 0.75
+        // 0.75 to 0.50
+        // 0.50 to 0.25
+        // 0.25 to 0.00
+        // 0.00 to -0.25
+        // -0.25 to -0.50
+        // -0.50 to -0.75
+        // -0.75 to inf
+        if (num > 0.75) {
+            return colors[0];
         }
-        else if (num < -0.6) {
-            return colors[5];
-        }
-        else if (num < -0.3) {
-            return colors[4];
-        }
-        else if (num < 0) {
-            return colors[3];
-        }
-        else if (num < 0.3) {
-            return colors[2];
-        }
-        else if (num < 0.6) {
+        else if (num > 0.5) {
             return colors[1];
         }
+        else if (num > 0.25) {
+            return colors[2];
+        }
+        else if (num > 0) {
+            return colors[3];
+        }
+        else if (num > -0.25) {
+            return colors[4];
+        }
+        else if (num > -0.5) {
+            return colors[5];
+        }
+        else if (num > -0.75) {
+            return colors[6];
+        }
         else {
-            return colors[0];
+            return colors[7];
         }
     }
 };
@@ -493,12 +532,15 @@ let RedditAuthService = class RedditAuthService {
         this.httpClient = httpClient;
         this.urlSerializer = urlSerializer;
         this.cookieService = cookieService;
-        this.access_token = "";
+        this.access_token = "ERROR FOUND. AUTHENTICATE BELOW.";
         this.getToken();
+    }
+    resetCookie() {
+        this.cookieService.deleteAll();
     }
     getToken() {
         // If accesstoken stored in cookie service and less than 1 hour passed, use that accesstoken
-        let dateCookie = parseInt(this.cookieService.get("date"));
+        let dateCookie = this.cookieService.get("date") == "" ? 0 : parseInt(this.cookieService.get("date"));
         let currentDate = new Date();
         let dateNow = currentDate.getTime() / 1000;
         // If around 90% of an hour has passed since last access_token, just get a new access token
@@ -510,26 +552,28 @@ let RedditAuthService = class RedditAuthService {
         else if (window.location.search !== "") {
             this.getAccessToken();
         }
-        else {
-            // Need to authenticate
-            this.gotoRedditOauth();
-        }
     }
     getAccessToken() {
         // If already authorized (user logged into reddit), parse the link
         let parsedTree = this.urlSerializer.parse(window.location.search);
         // If links has error, return
         if ("error" in parsedTree.queryParams) {
-            this.access_token = "ERROR FOUND.";
-            return;
+            this.cookieService.set("access_token", "ERROR FOUND. AUTHENTICATE BELOW");
+            window.location.assign("../");
         }
         // Parse code and send to backend for authorization
         let code = parsedTree.queryParams.code;
         this.httpClient.get(`/api/auth?code=${code}`).subscribe(res => {
             let currentDate = new Date();
             let secondsPassed = currentDate.getTime() / 1000;
-            this.cookieService.set("access_token", res["access_token"]);
-            this.cookieService.set("date", secondsPassed.toString());
+            if (res["access_token"].includes("ERROR")) {
+                this.cookieService.set("date", "0");
+                this.cookieService.set("access_token", "");
+            }
+            else {
+                this.cookieService.set("date", secondsPassed.toString());
+                this.cookieService.set("access_token", res["access_token"]);
+            }
             // Redirect to mainpage
             window.location.assign("../");
         });

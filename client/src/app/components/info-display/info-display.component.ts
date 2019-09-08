@@ -10,11 +10,13 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   @Input() rawInfo: Object;
   @Input() redditTitle: string;
   @Input() loading: boolean;
+  @Input() error: boolean = false;
 
   showInfo = false;
   magnitudeAvg: number;
   scoreAvg: number;
   filteredInfo: Array<Object>;
+  lastError = false;
 
   constructor(private spinner: NgxSpinnerService) {}
 
@@ -30,6 +32,8 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    this.lastError = this.error;
+
     if (this.loading) {
       this.spinner.show();
     } else {

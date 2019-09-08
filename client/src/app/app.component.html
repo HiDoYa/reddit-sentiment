@@ -9,24 +9,31 @@
 
   <div>Access Token: {{ this.redditAuthService.access_token }}</div>
   <div *ngIf="this.redditAuthService.access_token.includes('ERROR')">
-    <button class="btn btn-outline-primary m-2" (click)="onReauthClick()">
-      Reauthenticate
+    <button class="btn btn-outline-primary m-3" (click)="onReauthClick()">
+      Authenticate
     </button>
   </div>
 
   <div class="row m-4 p-4 option-block">
     <div class="col-md-12">
       <app-search-bar
-        (sentimentInfo)="onSentimentInfo($event)"
+        (onSentimentInfo)="onSentimentInfo($event)"
         (onLoading)="onLoading($event)"
-        (redditTitle)="onRedditTitle($event)"
+        (onError)="onError($event)"
+        (onRedditTitle)="onRedditTitle($event)"
         [loading]="loading"
       ></app-search-bar>
     </div>
   </div>
 
   <div class="row m-4 main-block">
-    <app-info-display [loading]="loading" [rawInfo]="rawInfo" [redditTitle]="redditTitle"></app-info-display>
+    <app-info-display
+      class="fullWidth"
+      [loading]="loading"
+      [rawInfo]="rawInfo"
+      [redditTitle]="redditTitle"
+      [error]="error"
+    ></app-info-display>
   </div>
 </div>
 

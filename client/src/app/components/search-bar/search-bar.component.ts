@@ -10,9 +10,10 @@ import { Observable } from "rxjs";
 export class SearchBarComponent implements OnInit {
   @Input() loading: boolean;
 
-  @Output() sentimentInfo = new EventEmitter<Object>();
+  @Output() onSentimentInfo = new EventEmitter<Object>();
   @Output() onLoading = new EventEmitter<Boolean>();
-  @Output() redditTitle = new EventEmitter<string>();
+  @Output() onError = new EventEmitter<Boolean>();
+  @Output() onRedditTitle = new EventEmitter<string>();
 
   current_reddit: string = "";
   current_category: string = "Top";
@@ -33,16 +34,27 @@ export class SearchBarComponent implements OnInit {
 
     // Currently loading
     this.onLoading.emit(true);
-    this.redditTitle.emit(this.current_reddit);
+    this.onError.emit(false);
+    this.onRedditTitle.emit(this.current_reddit);
 
     // When request done, send to parent
     promise.subscribe(res => {
-      this.sentimentInfo.emit(res);
-      this.onLoading.emit(false);
+      if (res["error"]) {
+        this.onError.emit(true);
+        this.onLoading.emit(false);
+      } else {
+        this.onError.emit(false);
+        this.onSentimentInfo.emit(res);
+        this.onLoading.emit(false);
+      }
     });
   }
 
   onClickCategory(category: string) {
     this.current_category = category;
+  }
+
+  disableClick() {
+    return this.loading || this.redditAuthService.access_token.includes("ERROR");
   }
 }

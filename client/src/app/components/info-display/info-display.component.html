@@ -1,13 +1,22 @@
-<div *ngIf="showInfo && !loading">
-  <h3 class="mt-2">{{ redditTitle }}</h3>
-  <div class="mt-4 mb-4">
-    <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>
-    <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>
+<h3 class="mt-2">{{ redditTitle }}</h3>
+
+<div *ngIf="lastError; then errorDom; else successDom"></div>
+
+<ng-template #successDom>
+  <div *ngIf="showInfo && !loading">
+    <div class="mt-4 mb-4">
+      <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>
+      <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>
+    </div>
+    <div *ngFor="let info of filteredInfo">
+      <app-single-post-display [postData]="info['detail']"></app-single-post-display>
+    </div>
   </div>
-  <div *ngFor="let info of filteredInfo">
-    <app-single-post-display [postData]="info['detail']"></app-single-post-display>
-  </div>
-</div>
-<ngx-spinner bdOpacity="0.3" size="medium" color="#fff" type="ball-climbing-dot" [fullScreen]="true">
-  <p style="color: white">Loading...</p>
-</ngx-spinner>
+  <ngx-spinner bdOpacity="0.3" size="medium" color="#fff" type="ball-climbing-dot" [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>
+</ng-template>
+
+<ng-template #errorDom>
+  <div class="mt-4 mb-4">Errors found while getting data.</div>
+</ng-template>
