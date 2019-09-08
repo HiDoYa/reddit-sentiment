@@ -155,6 +155,7 @@ def get_children_text(element):
 def add_sentence_end(sentence):
     # If the sentence doesn't end with proper terminal point
     list_of_terminals = ['.', '?', '!']
+    print(sentence[-2:])
     if any(x in sentence[-2:] for x in list_of_terminals):
-        return sentence + '. '
-    return sentence
+        return sentence
+    return sentence + '. '

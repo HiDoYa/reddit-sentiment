@@ -6,4 +6,13 @@ This webapp allows you to choose any subreddit and see the overall sentiment for
 
 The webapp is containerized with Docker-Compose and deployed to an AWS EC2 free-tier instance via Docker Hub. Elastic Beanstalk was removed due to extra costs. It also uses nginx to serve static files and gunicorn as an application server. 
 
+## Screenshots
+
+<br>
+![alt text](images/main.png)
+
+<br> 
+Shows sentiment data for each sentence.
+![alt text](images/detail.png)
+
 Still in development.
