@@ -9,9 +9,12 @@ The webapp is containerized with Docker-Compose and deployed to an AWS EC2 free-
 ## Screenshots
 
 <br>
+
 ![alt text](images/main.png)
 
+
 <br> 
+
 Shows sentiment data for each sentence.
 ![alt text](images/detail.png)
 
