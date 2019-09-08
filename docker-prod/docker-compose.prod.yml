@@ -1,7 +1,6 @@
 version: "3.7"
 services:
     static:
-        build: ./nginx
         ports:
             - "80:80"
         image: hidoya/nginx_reddit_sentiment
@@ -9,7 +8,6 @@ services:
             - web
 
     web:
-        build: .
         env_file:
             - secret.env
         expose:
