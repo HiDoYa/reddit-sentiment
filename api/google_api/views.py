@@ -13,11 +13,14 @@ import re
 
 def sentiment_view(request):
     # Gets info from reddit and sends to google api, then returns sentiment
-    texts = fetch_posts(request)
+    try:
+        texts = fetch_posts(request)
+    except(...):
+        return JsonResponse({"error": "error"})
 
     # Check if reddit fetch had error
-    if texts == "err":
-        return JsonResponse({"err": "err"})
+    if texts == "error":
+        return JsonResponse({"error": "error"})
 
     client = language.LanguageServiceClient()
 
@@ -29,7 +32,10 @@ def sentiment_view(request):
             language="EN",
             type=enums.Document.Type.PLAIN_TEXT)
 
-        sentiment = client.analyze_sentiment(document=document)
+        try:
+            sentiment = client.analyze_sentiment(document=document)
+        except(...):
+            return JsonResponse({"error": "error"})
 
         # Convert object to dict
         arr_sentences = []
@@ -46,7 +52,6 @@ def sentiment_view(request):
 
 
 def fetch_posts(request):
-    # Util function
     # Gets info from reddit
 
     # Loads necessary vars (sent from frontend POST req)
@@ -61,7 +66,7 @@ def fetch_posts(request):
     if "reddit.com" in reddit_str:
         # Check that this is a subreddit. Otherwise, return error
         if "/r/" not in reddit_str:
-            return "err"
+            return "error"
 
         # Check whether this is a comment thread. (in this case, the string is always an URL)
         if "/comments/" in reddit_str:
@@ -78,7 +83,7 @@ def fetch_posts(request):
 
     if not is_comment:
         # Get url for subreddit
-        url = "https://oauth.reddit.com/r/{}/{}.json?limit=100".format(
+        url = "https://oauth.reddit.com/r/{}/{}.json?limit=50".format(
             reddit_str.lower(), category.lower())
     else:
         # Get url for comment
@@ -87,7 +92,7 @@ def fetch_posts(request):
             if path == "r":
                 split_path[index - 1] = "oauth.reddit.com"
                 break
-        url = '/'.join(split_path) + ".json?limit=100?sort=" + category
+        url = '/'.join(split_path) + ".json?limit=50?sort=" + category
 
     header = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -98,7 +103,11 @@ def fetch_posts(request):
 
     # If error in reddit response, return
     if "error" in r:
-        return "err"
+        return "error"
+
+    # If subreddit DNE
+    if not is_comment and len(r["data"]["children"]) == 0:
+        return "error"
 
     texts = []
     # If comment, only take the second arr ele
@@ -109,12 +118,18 @@ def fetch_posts(request):
         # Also includes title
         # Parse main text. Remove any links or &amp;...;
         # Remove non-english letters
+
         if is_comment:
-            main_text = eachEle["data"]["body"]
-            # TODO Recursively add comments until replies == ""
+            # If not comment type, exit
+            if eachEle["kind"] != "t1":
+                break
+
+            main_text = add_sentence_end(eachEle["data"]["body"]) + \
+                get_children_text(eachEle)
         else:
-            main_text = eachEle["data"]["title"] + \
-                '. ' + eachEle["data"]["selftext"]
+            main_text = add_sentence_end(eachEle["data"]["title"]) + \
+                eachEle["data"]["selftext"]
+
         main_text = re.sub(r'[^\x00-\x7f]', r'', main_text)
         main_text = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
                            main_text)
@@ -125,12 +140,21 @@ def fetch_posts(request):
 
 
 def get_children_text(element):
-    # TODO
-    # Make sure that kind == t1 (cant be 'more')
-    # Make sure that no_follow is false
+    # cur_list = []
+    cur_string = ""
     replies = element["data"]["replies"]
     if replies != "":
         for child_element in replies["data"]["children"]:
-            get_children_text(child_element)
+            if child_element["kind"] == "t1" and not child_element["data"]["no_follow"]:
+                cur_string += add_sentence_end(child_element["data"]["body"])
+                cur_string += get_children_text(child_element)
 
-            text = child_element["body"]
+    return cur_string
+
+
+def add_sentence_end(sentence):
+    # If the sentence doesn't end with proper terminal point
+    list_of_terminals = ['.', '?', '!']
+    if any(x in sentence[-2:] for x in list_of_terminals):
+        return sentence + '. '
+    return sentence
