@@ -25,7 +25,8 @@ SECRET_KEY = os.environ.get('REDDIT_SENTIMENT_SECRET', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost',
+                 'ec2-34-218-244-66.us-west-2.compute.amazonaws.com']
 
 
 # Application definition

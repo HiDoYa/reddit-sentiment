@@ -5,6 +5,6 @@ services:
         env_file:
             - secret.env
         ports:
-            - "8000:8000"
+            - "80:8000"
         image: reddit_sentiment:latest
         command: python manage.py runserver 0.0.0.0:8000
