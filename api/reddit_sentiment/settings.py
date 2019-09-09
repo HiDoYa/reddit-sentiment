@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
                  'ec2-34-208-65-226.us-west-2.compute.amazonaws.com',
+                 'redditsentiment.com',
                  'www.redditsentiment.com']
 
 
