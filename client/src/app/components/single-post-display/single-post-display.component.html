@@ -1,9 +1,6 @@
 <div class="p-4 mt-3 mb-3 single-post">
   <h5 class="single-line-in-post" placement="right" [ngbTooltip]="titleTipContent" [style.color]="colorize(titleData['score'])">
-    <ng-template #titleTipContent
-      >Score: {{ titleData["score"].toFixed(3) }}<br />
-      Magnitude: {{ titleData["magnitude"].toFixed(3) }}</ng-template
-    >
+    <ng-template #titleTipContent>Score: {{ titleData["score"].toFixed(1) }}</ng-template>
     {{ titleData["text"] }}
   </h5>
   <span
@@ -13,10 +10,7 @@
     [ngbTooltip]="baseTipContent"
     [style.color]="colorize(data['score'])"
   >
-    <ng-template #baseTipContent
-      >Score: {{ data["score"].toFixed(1) }}<br />
-      Magnitude: {{ data["magnitude"].toFixed(1) }}</ng-template
-    >
+    <ng-template #baseTipContent>Score: {{ data["score"].toFixed(1) }}</ng-template>
     {{ data["text"] }}
   </span>
 </div>

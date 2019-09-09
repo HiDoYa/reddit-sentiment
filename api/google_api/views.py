@@ -14,41 +14,34 @@ import re
 def sentiment_view(request):
     # Gets info from reddit and sends to google api, then returns sentiment
     try:
-        texts = fetch_posts(request)
-    except(...):
-        return JsonResponse({"error": "error"})
+        title, texts = fetch_posts(request)
 
-    # Check if reddit fetch had error
-    if texts == "error":
-        return JsonResponse({"error": "error"})
+        client = language.LanguageServiceClient()
 
-    client = language.LanguageServiceClient()
+        sentiment_dict = {}
+        # Repeat for each text
+        for idx, text in enumerate(texts):
+            document = types.Document(
+                content=text,
+                language="EN",
+                type=enums.Document.Type.PLAIN_TEXT)
 
-    sentiment_dict = {}
-    # Repeat for each text
-    for idx, text in enumerate(texts):
-        document = types.Document(
-            content=text,
-            language="EN",
-            type=enums.Document.Type.PLAIN_TEXT)
-
-        try:
             sentiment = client.analyze_sentiment(document=document)
-        except(...):
-            return JsonResponse({"error": "error"})
 
-        # Convert object to dict
-        arr_sentences = []
-        for sentence in sentiment.sentences:
-            arr_sentences.append({"text": sentence.text.content,
-                                  "magnitude": sentence.sentiment.magnitude,
-                                  "score": sentence.sentiment.score})
+            # Convert object to dict
+            arr_sentences = []
+            for sentence in sentiment.sentences:
+                arr_sentences.append({"text": sentence.text.content,
+                                      "score": sentence.sentiment.score})
 
-        sentiment_dict.update({idx: {"overall_score": sentiment.document_sentiment.score,
-                                     "overall_magnitude": sentiment.document_sentiment.magnitude,
-                                     "detail": arr_sentences}})
+            sentiment_dict.update({idx: {"overall_score": sentiment.document_sentiment.score,
+                                         "detail": arr_sentences}})
 
-    return JsonResponse(sentiment_dict)
+    except Exception as e:
+        # TODO Use the returned error to handle correctly in frontend
+        return JsonResponse({"error": str(e)})
+
+    return JsonResponse({"sentiment_dict": sentiment_dict, "title": title})
 
 
 def fetch_posts(request):
@@ -59,6 +52,7 @@ def fetch_posts(request):
     access_token = req_body["access_token"]
     reddit_str = req_body["reddit_str"]
     category = req_body["category"]
+    limit = req_body["limit"]
 
     # Flag for whether this is a comment thread or a general subreddit
     is_comment = False
@@ -66,7 +60,7 @@ def fetch_posts(request):
     if "reddit.com" in reddit_str:
         # Check that this is a subreddit. Otherwise, return error
         if "/r/" not in reddit_str:
-            return "error"
+            raise Exception("/r/ not in URL")
 
         # Check whether this is a comment thread. (in this case, the string is always an URL)
         if "/comments/" in reddit_str:
@@ -83,8 +77,8 @@ def fetch_posts(request):
 
     if not is_comment:
         # Get url for subreddit
-        url = "https://oauth.reddit.com/r/{}/{}.json?limit=50".format(
-            reddit_str.lower(), category.lower())
+        url = "https://oauth.reddit.com/r/{}/{}.json?limit={}".format(
+            reddit_str.lower(), category.lower(), limit)
     else:
         # Get url for comment
         split_path = reddit_str.split('/')
@@ -92,7 +86,8 @@ def fetch_posts(request):
             if path == "r":
                 split_path[index - 1] = "oauth.reddit.com"
                 break
-        url = '/'.join(split_path) + ".json?limit=50?sort=" + category
+        url = '/'.join(split_path) + \
+            ".json?limit={}&sort={}".format(limit, category)
 
     header = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -103,15 +98,28 @@ def fetch_posts(request):
 
     # If error in reddit response, return
     if "error" in r:
-        return "error"
+        raise Exception("Error in reddit response")
 
     # If subreddit DNE
     if not is_comment and len(r["data"]["children"]) == 0:
-        return "error"
+        raise Exception("Subreddit DNE")
+
+    # Get subreddit name or post name
+    if is_comment:
+        title = r[0]["data"]["children"][0]["data"]["subreddit"] + \
+            ": " + r[0]["data"]["children"][0]["data"]["title"]
+    else:
+        title = r["data"]["children"][0]["data"]["subreddit"]
 
     texts = []
-    # If comment, only take the second arr ele
+    # If comment, add the title and post
+    # Then, only take the second arr ele
     if is_comment:
+        texts.append(
+            clean_text(add_sentence_end(
+                r[0]["data"]["children"][0]["data"]["title"])) +
+            clean_text(add_sentence_end(
+                r[0]["data"]["children"][0]["data"]["selftext"])))
         r = r[1]
 
     for eachEle in r["data"]["children"]:
@@ -124,38 +132,47 @@ def fetch_posts(request):
             if eachEle["kind"] != "t1":
                 break
 
-            main_text = add_sentence_end(eachEle["data"]["body"]) + \
-                get_children_text(eachEle)
+            main_text = clean_text(add_sentence_end(eachEle["data"]["body"]))
         else:
             main_text = add_sentence_end(eachEle["data"]["title"]) + \
                 eachEle["data"]["selftext"]
 
-        main_text = re.sub(r'[^\x00-\x7f]', r'', main_text)
-        main_text = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
-                           main_text)
-        main_text = re.sub(r'&[a-zA-Z]+;[^;]+;', '', main_text)
-        texts.append(main_text)
+        texts.append(clean_text(main_text))
 
-    return texts
+        # If comment, get all subcomments
+        if is_comment:
+            texts.extend(get_children_text(eachEle))
+
+    return (title, texts)
+
+
+def clean_text(string):
+    # Remove unicode
+    string = re.sub(r'[^\x00-\x7f]', r'', string)
+    # Remove links
+    string = re.sub(r'\[([^\[\]]*)\]\([^\(\)]*\)', r'\1',
+                    string)
+    # Remove &xyz;xyz;
+    string = re.sub(r'&[a-zA-Z]+;[^;]+;', '', string)
+    return string
 
 
 def get_children_text(element):
-    # cur_list = []
-    cur_string = ""
+    cur_list = []
     replies = element["data"]["replies"]
     if replies != "":
         for child_element in replies["data"]["children"]:
             if child_element["kind"] == "t1" and not child_element["data"]["no_follow"]:
-                cur_string += add_sentence_end(child_element["data"]["body"])
-                cur_string += get_children_text(child_element)
+                cur_list.append(add_sentence_end(
+                    child_element["data"]["body"]))
+                cur_list.extend(get_children_text(child_element))
 
-    return cur_string
+    return cur_list
 
 
 def add_sentence_end(sentence):
     # If the sentence doesn't end with proper terminal point
     list_of_terminals = ['.', '?', '!']
-    print(sentence[-2:])
     if any(x in sentence[-2:] for x in list_of_terminals):
         return sentence
     return sentence + '. '

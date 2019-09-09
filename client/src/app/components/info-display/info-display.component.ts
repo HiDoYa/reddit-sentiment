@@ -13,10 +13,8 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   @Input() error: boolean = false;
 
   showInfo = false;
-  magnitudeAvg: number;
   scoreAvg: number;
   filteredInfo: Array<Object>;
-  lastError = false;
 
   constructor(private spinner: NgxSpinnerService) {}
 
@@ -32,8 +30,6 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    this.lastError = this.error;
-
     if (this.loading) {
       this.spinner.show();
     } else {
@@ -42,10 +38,8 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
 
     if (!this.isEmpty(this.rawInfo)) {
       this.showInfo = true;
-      console.log(this.rawInfo);
 
       // Reset
-      let magnitudeSum = 0;
       let scoreSum = 0;
       let numberTotal = 0;
       this.filteredInfo = [];
@@ -54,15 +48,13 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
       Object.keys(this.rawInfo).forEach(key => {
         // Check that the data is not empty
         if (this.rawInfo[key]["detail"].length !== 0) {
-          this.filteredInfo.push(this.rawInfo[key]);
+          this.filteredInfo.push(this.rawInfo[key]["detail"]);
           numberTotal++;
           scoreSum += this.rawInfo[key]["overall_score"];
-          magnitudeSum += this.rawInfo[key]["overall_magnitude"];
         }
       });
 
       this.scoreAvg = scoreSum / numberTotal;
-      this.magnitudeAvg = magnitudeSum / numberTotal;
     }
   }
 }

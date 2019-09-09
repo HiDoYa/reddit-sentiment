@@ -76,10 +76,11 @@ export class RedditAuthService {
   }
 
   // Calls backend to get reddit data and analyze
-  getAnalyze(reddit_str: string, category: string) {
+  getAnalyze(reddit_str: string, category: string, limit: number) {
     let body = {
       reddit_str: reddit_str,
       category: category,
+      limit: limit,
       access_token: this.access_token
     };
 

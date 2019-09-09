@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row m-4 p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div>Access Token: {{ this.redditAuthService.access_token }}</div>\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onSentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <p>Error authenticating your reddit access token. Authenticate below.</p>\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\" (mouseenter)=\"showDescription = true\" (mouseleave)=\"showDescription = false\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onSentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n      <div [className]=\"'description ' + (showDescription ? 'show-css' : 'hide-css')\">\n        <p>Enter the url of the subreddit or the reddit post which you wish to analyze.</p>\n        <p>This website requires cookies to be enabled.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"lastError; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4>Average Magnitude: {{ magnitudeAvg.toFixed(4) }}</h4>\n      <h4>Average Score: {{ scoreAvg.toFixed(4) }}</h4>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info['detail']\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n</ng-template>\n"
+module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"error; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4>Average Score: {{ scoreAvg.toFixed(3) }}</h4>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n</ng-template>\n"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"last
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8\">\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          name=\"reddit-name\"\n          placeholder=\"Enter reddit link here\"\n          [(ngModel)]=\"current_reddit\"\n        />\n      </div>\n      <div class=\"col-md-2\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"onClickCategory(category)\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"disableClick()\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n    <div class=\"row\">\n      <div class=\"col-md-8 mt-1 mb-1\">\n        <input type=\"text\" class=\"form-control\" name=\"reddit-name\" placeholder=\"Url\" [(ngModel)]=\"current_reddit\" />\n      </div>\n      <div class=\"col-md-1 mt-1 mb-1\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{ current_category }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let category of categories\" (click)=\"current_category = category\" ngbDropdownItem>\n              {{ category }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-1 mt-1 mb-1\">\n        <div ngbDropdown class=\"d-inline-block\">\n          <button class=\"btn btn-outline-primary\" id=\"dropdownBasic2\" ngbDropdownToggle>{{ current_limit }}</button>\n          <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n            <button *ngFor=\"let limit of limits\" (click)=\"current_limit = limit\" ngbDropdownItem>\n              {{ limit }}\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-2 mt-1 mb-1\">\n        <button type=\"submit\" class=\"btn btn-primary\" (click)=\"onSubmit()\" [disabled]=\"disableClick()\">Search!</button>\n      </div>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent\n      >Score: {{ titleData[\"score\"].toFixed(3) }}<br />\n      Magnitude: {{ titleData[\"magnitude\"].toFixed(3) }}</ng-template\n    >\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent\n      >Score: {{ data[\"score\"].toFixed(1) }}<br />\n      Magnitude: {{ data[\"magnitude\"].toFixed(1) }}</ng-template\n    >\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
+module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent>Score: {{ titleData[\"score\"].toFixed(1) }}</ng-template>\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent>Score: {{ data[\"score\"].toFixed(1) }}</ng-template>\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
 
 /***/ }),
 
@@ -104,7 +104,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n\n.fullWidth {\n  width: 100%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRjs7QURRQTtFQUNFLFdBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cbiIsIi5vcHRpb24tYmxvY2sge1xuICBib3JkZXI6IDAuMTVlbSBzb2xpZCAjYjdiN2I3O1xufVxuXG4uZnVsbFdpZHRoIHtcbiAgd2lkdGg6IDEwMCU7XG59Il19 */"
+module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n\n.fullWidth {\n  width: 100%;\n}\n\n.description {\n  transition: max-height 0.1s ease-in-out;\n}\n\n.show-css {\n  max-height: 15em;\n  overflow-y: hidden;\n}\n\n.hide-css {\n  max-height: 0em;\n  overflow-y: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRjs7QURRQTtFQUNFLFdBQUE7QUNMRjs7QURRQTtFQUNFLHVDQUFBO0FDTEY7O0FEUUE7RUFDRSxnQkFBQTtFQUNBLGtCQUFBO0FDTEY7O0FEUUE7RUFDRSxlQUFBO0VBQ0Esa0JBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmRlc2NyaXB0aW9uIHtcbiAgdHJhbnNpdGlvbjogbWF4LWhlaWdodCAwLjFzIGVhc2UtaW4tb3V0O1xufVxuXG4uc2hvdy1jc3Mge1xuICBtYXgtaGVpZ2h0OiAxNWVtO1xuICBvdmVyZmxvdy15OiBoaWRkZW47XG59XG5cbi5oaWRlLWNzcyB7XG4gIG1heC1oZWlnaHQ6IDBlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufVxuIiwiLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmRlc2NyaXB0aW9uIHtcbiAgdHJhbnNpdGlvbjogbWF4LWhlaWdodCAwLjFzIGVhc2UtaW4tb3V0O1xufVxuXG4uc2hvdy1jc3Mge1xuICBtYXgtaGVpZ2h0OiAxNWVtO1xuICBvdmVyZmxvdy15OiBoaWRkZW47XG59XG5cbi5oaWRlLWNzcyB7XG4gIG1heC1oZWlnaHQ6IDBlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -130,6 +130,7 @@ let AppComponent = class AppComponent {
         this.title = "Reddit Sentiment";
         this.loading = false;
         this.error = false;
+        this.showDescription = false;
     }
     ngOnInit() { }
     onReauthClick() {
@@ -251,7 +252,6 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         this.spinner = spinner;
         this.error = false;
         this.showInfo = false;
-        this.lastError = false;
     }
     ngOnInit() { }
     isEmpty(obj) {
@@ -263,7 +263,6 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         return true;
     }
     ngOnChanges() {
-        this.lastError = this.error;
         if (this.loading) {
             this.spinner.show();
         }
@@ -272,9 +271,7 @@ let InfoDisplayComponent = class InfoDisplayComponent {
         }
         if (!this.isEmpty(this.rawInfo)) {
             this.showInfo = true;
-            console.log(this.rawInfo);
             // Reset
-            let magnitudeSum = 0;
             let scoreSum = 0;
             let numberTotal = 0;
             this.filteredInfo = [];
@@ -282,14 +279,12 @@ let InfoDisplayComponent = class InfoDisplayComponent {
             Object.keys(this.rawInfo).forEach(key => {
                 // Check that the data is not empty
                 if (this.rawInfo[key]["detail"].length !== 0) {
-                    this.filteredInfo.push(this.rawInfo[key]);
+                    this.filteredInfo.push(this.rawInfo[key]["detail"]);
                     numberTotal++;
                     scoreSum += this.rawInfo[key]["overall_score"];
-                    magnitudeSum += this.rawInfo[key]["overall_magnitude"];
                 }
             });
             this.scoreAvg = scoreSum / numberTotal;
-            this.magnitudeAvg = magnitudeSum / numberTotal;
         }
     }
 };
@@ -356,7 +351,9 @@ let SearchBarComponent = class SearchBarComponent {
         this.onRedditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.current_reddit = "";
         this.current_category = "Top";
+        this.current_limit = 5;
         this.categories = ["Hot", "Top", "New"];
+        this.limits = [5, 10, 20, 50];
     }
     ngOnInit() { }
     onSubmit() {
@@ -365,11 +362,10 @@ let SearchBarComponent = class SearchBarComponent {
             return;
         }
         // Send request
-        let promise = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category);
+        let promise = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category, this.current_limit);
         // Currently loading
         this.onLoading.emit(true);
         this.onError.emit(false);
-        this.onRedditTitle.emit(this.current_reddit);
         // When request done, send to parent
         promise.subscribe(res => {
             if (res["error"]) {
@@ -378,13 +374,11 @@ let SearchBarComponent = class SearchBarComponent {
             }
             else {
                 this.onError.emit(false);
-                this.onSentimentInfo.emit(res);
+                this.onSentimentInfo.emit(res["sentiment_dict"]);
+                this.onRedditTitle.emit(res["title"]);
                 this.onLoading.emit(false);
             }
         });
-    }
-    onClickCategory(category) {
-        this.current_category = category;
     }
     disableClick() {
         return this.loading || this.redditAuthService.access_token.includes("ERROR");
@@ -588,10 +582,11 @@ let RedditAuthService = class RedditAuthService {
             `&scope=read`);
     }
     // Calls backend to get reddit data and analyze
-    getAnalyze(reddit_str, category) {
+    getAnalyze(reddit_str, category, limit) {
         let body = {
             reddit_str: reddit_str,
             category: category,
+            limit: limit,
             access_token: this.access_token
         };
         return this.httpClient.post("/api/analyze", body);

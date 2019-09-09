@@ -1,5 +1,5 @@
 <div class="container" style="text-align:center">
-  <div class="row m-4 p-4 title-block">
+  <div class="row p-4 title-block">
     <div class="col"></div>
     <h1>
       {{ title }}
@@ -7,14 +7,14 @@
     <div class="col"></div>
   </div>
 
-  <div>Access Token: {{ this.redditAuthService.access_token }}</div>
   <div *ngIf="this.redditAuthService.access_token.includes('ERROR')">
+    <p>Error authenticating your reddit access token. Authenticate below.</p>
     <button class="btn btn-outline-primary m-3" (click)="onReauthClick()">
       Authenticate
     </button>
   </div>
 
-  <div class="row m-4 p-4 option-block">
+  <div class="row m-4 p-4 option-block" (mouseenter)="showDescription = true" (mouseleave)="showDescription = false">
     <div class="col-md-12">
       <app-search-bar
         (onSentimentInfo)="onSentimentInfo($event)"
@@ -23,6 +23,10 @@
         (onRedditTitle)="onRedditTitle($event)"
         [loading]="loading"
       ></app-search-bar>
+      <div [className]="'description ' + (showDescription ? 'show-css' : 'hide-css')">
+        <p>Enter the url of the subreddit or the reddit post which you wish to analyze.</p>
+        <p>This website requires cookies to be enabled.</p>
+      </div>
     </div>
   </div>
 

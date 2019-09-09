@@ -1,26 +1,30 @@
 <form #searchForm="ngForm">
   <div class="form-group">
     <div class="row">
-      <div class="col-md-8">
-        <input
-          type="text"
-          class="form-control"
-          name="reddit-name"
-          placeholder="Enter reddit link here"
-          [(ngModel)]="current_reddit"
-        />
+      <div class="col-md-8 mt-1 mb-1">
+        <input type="text" class="form-control" name="reddit-name" placeholder="Url" [(ngModel)]="current_reddit" />
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1 mt-1 mb-1">
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{ current_category }}</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button *ngFor="let category of categories" (click)="onClickCategory(category)" ngbDropdownItem>
+            <button *ngFor="let category of categories" (click)="current_category = category" ngbDropdownItem>
               {{ category }}
             </button>
           </div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1 mt-1 mb-1">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>{{ current_limit }}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button *ngFor="let limit of limits" (click)="current_limit = limit" ngbDropdownItem>
+              {{ limit }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 mt-1 mb-1">
         <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="disableClick()">Search!</button>
       </div>
     </div>

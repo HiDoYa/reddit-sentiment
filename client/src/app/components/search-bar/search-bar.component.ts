@@ -17,7 +17,9 @@ export class SearchBarComponent implements OnInit {
 
   current_reddit: string = "";
   current_category: string = "Top";
+  current_limit = 5;
   categories = ["Hot", "Top", "New"];
+  limits = [5, 10, 20, 50];
 
   constructor(private redditAuthService: RedditAuthService) {}
 
@@ -30,12 +32,15 @@ export class SearchBarComponent implements OnInit {
     }
 
     // Send request
-    let promise: Observable<Object> = this.redditAuthService.getAnalyze(this.current_reddit, this.current_category);
+    let promise: Observable<Object> = this.redditAuthService.getAnalyze(
+      this.current_reddit,
+      this.current_category,
+      this.current_limit
+    );
 
     // Currently loading
     this.onLoading.emit(true);
     this.onError.emit(false);
-    this.onRedditTitle.emit(this.current_reddit);
 
     // When request done, send to parent
     promise.subscribe(res => {
@@ -44,14 +49,11 @@ export class SearchBarComponent implements OnInit {
         this.onLoading.emit(false);
       } else {
         this.onError.emit(false);
-        this.onSentimentInfo.emit(res);
+        this.onSentimentInfo.emit(res["sentiment_dict"]);
+        this.onRedditTitle.emit(res["title"]);
         this.onLoading.emit(false);
       }
     });
-  }
-
-  onClickCategory(category: string) {
-    this.current_category = category;
   }
 
   disableClick() {

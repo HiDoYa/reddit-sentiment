@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   loading = false;
   error = false;
   redditTitle: string;
+  showDescription = false;
 
   constructor(private redditAuthService: RedditAuthService) {}
 
