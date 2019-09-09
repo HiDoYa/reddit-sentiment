@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <p>Error authenticating your reddit access token. Authenticate below.</p>\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\" (mouseenter)=\"showDescription = true\" (mouseleave)=\"showDescription = false\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onSentimentInfo)=\"onSentimentInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n      <div [className]=\"'description ' + (showDescription ? 'show-css' : 'hide-css')\">\n        <p>Enter the url of the subreddit or the reddit post which you wish to analyze.</p>\n        <p>This website requires cookies to be enabled.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <p>Error authenticating your reddit access token. Authenticate below.</p>\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\" (mouseenter)=\"showDescription = true\" (mouseleave)=\"showDescription = false\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onRawInfo)=\"onRawInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        (onErrorStr)=\"onErrorStr($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n      <div [className]=\"'description ' + (showDescription ? 'show-css' : 'hide-css')\">\n        <p>Enter the url of the subreddit or the reddit post which you wish to analyze.</p>\n        <p>This website requires cookies to be enabled.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n      [errorStr]=\"errorStr\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"error; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4>Average Score: {{ scoreAvg.toFixed(3) }}</h4>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n</ng-template>\n"
+module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"error; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4 [style.color]=\"colorize(scoreAvg)\">Average Score: {{ scoreAvg.toFixed(1) }}</h4>\n      <p>Score is from -10 to 10 (very negative to very positive).</p>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n  <div>{{ errorStr }}</div>\n</ng-template>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<form #searchForm=\"ngForm\">\n  <div class=\"form-group\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"colorize(titleData['score'])\">\n    <ng-template #titleTipContent>Score: {{ titleData[\"score\"].toFixed(1) }}</ng-template>\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"colorize(data['score'])\"\n  >\n    <ng-template #baseTipContent>Score: {{ data[\"score\"].toFixed(1) }}</ng-template>\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
+module.exports = "<div class=\"p-4 mt-3 mb-3 single-post\">\n  <h5 class=\"single-line-in-post\" placement=\"right\" [ngbTooltip]=\"titleTipContent\" [style.color]=\"color(titleData['score'])\">\n    <ng-template #titleTipContent>Score: {{ titleData[\"score\"] }}</ng-template>\n    {{ titleData[\"text\"] }}\n  </h5>\n  <span\n    class=\"single-line-in-post\"\n    *ngFor=\"let data of bodyData\"\n    placement=\"right\"\n    [ngbTooltip]=\"baseTipContent\"\n    [style.color]=\"color(data['score'])\"\n  >\n    <ng-template #baseTipContent>Score: {{ data[\"score\"] }}</ng-template>\n    {{ data[\"text\"] }}\n  </span>\n</div>\n"
 
 /***/ }),
 
@@ -138,7 +138,7 @@ let AppComponent = class AppComponent {
         this.redditAuthService.gotoRedditOauth();
     }
     // Getting sentient analysis info
-    onSentimentInfo(info) {
+    onRawInfo(info) {
         this.rawInfo = info;
     }
     // If loading
@@ -150,6 +150,9 @@ let AppComponent = class AppComponent {
     }
     onError(error) {
         this.error = error;
+    }
+    onErrorStr(errorStr) {
+        this.errorStr = errorStr;
     }
 };
 AppComponent.ctorParameters = () => [
@@ -244,6 +247,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+/* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/color */ "./src/app/utility/color.ts");
+
 
 
 
@@ -287,6 +292,9 @@ let InfoDisplayComponent = class InfoDisplayComponent {
             this.scoreAvg = scoreSum / numberTotal;
         }
     }
+    color(num) {
+        return Object(_utility_color__WEBPACK_IMPORTED_MODULE_3__["colorize"])(num);
+    }
 };
 InfoDisplayComponent.ctorParameters = () => [
     { type: ngx_spinner__WEBPACK_IMPORTED_MODULE_2__["NgxSpinnerService"] }
@@ -303,6 +311,9 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], InfoDisplayComponent.prototype, "error", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], InfoDisplayComponent.prototype, "errorStr", void 0);
 InfoDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-info-display",
@@ -345,9 +356,10 @@ __webpack_require__.r(__webpack_exports__);
 let SearchBarComponent = class SearchBarComponent {
     constructor(redditAuthService) {
         this.redditAuthService = redditAuthService;
-        this.onSentimentInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onRawInfo = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onLoading = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onError = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.onErrorStr = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.onRedditTitle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.current_reddit = "";
         this.current_category = "Top";
@@ -370,11 +382,12 @@ let SearchBarComponent = class SearchBarComponent {
         promise.subscribe(res => {
             if (res["error"]) {
                 this.onError.emit(true);
+                this.onErrorStr.emit(res["error"]);
                 this.onLoading.emit(false);
             }
             else {
                 this.onError.emit(false);
-                this.onSentimentInfo.emit(res["sentiment_dict"]);
+                this.onRawInfo.emit(res["sentiment_dict"]);
                 this.onRedditTitle.emit(res["title"]);
                 this.onLoading.emit(false);
             }
@@ -392,13 +405,16 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 ], SearchBarComponent.prototype, "loading", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
-], SearchBarComponent.prototype, "onSentimentInfo", void 0);
+], SearchBarComponent.prototype, "onRawInfo", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], SearchBarComponent.prototype, "onLoading", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], SearchBarComponent.prototype, "onError", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], SearchBarComponent.prototype, "onErrorStr", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], SearchBarComponent.prototype, "onRedditTitle", void 0);
@@ -437,6 +453,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SinglePostDisplayComponent", function() { return SinglePostDisplayComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/color */ "./src/app/utility/color.ts");
+
 
 
 let SinglePostDisplayComponent = class SinglePostDisplayComponent {
@@ -448,42 +466,8 @@ let SinglePostDisplayComponent = class SinglePostDisplayComponent {
         this.bodyData = JSON.parse(JSON.stringify(this.postData));
         this.bodyData.shift();
     }
-    colorize(num) {
-        // From green to red
-        let colors = ["#20df00", "#40bf00", "#609f00", "#a9aea2", "#a9aea2", "#fb6969", "#e6482d", "#ff0000"];
-        // Range:
-        // inf to 0.75
-        // 0.75 to 0.50
-        // 0.50 to 0.25
-        // 0.25 to 0.00
-        // 0.00 to -0.25
-        // -0.25 to -0.50
-        // -0.50 to -0.75
-        // -0.75 to inf
-        if (num > 0.75) {
-            return colors[0];
-        }
-        else if (num > 0.5) {
-            return colors[1];
-        }
-        else if (num > 0.25) {
-            return colors[2];
-        }
-        else if (num > 0) {
-            return colors[3];
-        }
-        else if (num > -0.25) {
-            return colors[4];
-        }
-        else if (num > -0.5) {
-            return colors[5];
-        }
-        else if (num > -0.75) {
-            return colors[6];
-        }
-        else {
-            return colors[7];
-        }
+    color(num) {
+        return Object(_utility_color__WEBPACK_IMPORTED_MODULE_2__["colorize"])(num);
     }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -603,6 +587,57 @@ RedditAuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     })
 ], RedditAuthService);
 
+
+
+/***/ }),
+
+/***/ "./src/app/utility/color.ts":
+/*!**********************************!*\
+  !*** ./src/app/utility/color.ts ***!
+  \**********************************/
+/*! exports provided: colorize */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "colorize", function() { return colorize; });
+function colorize(num) {
+    // From green to red
+    let colors = ["#20df00", "#40bf00", "#609f00", "#a9aea2", "#a9aea2", "#fb6969", "#e6482d", "#ff0000"];
+    // Range:
+    // inf to 0.75
+    // 0.75 to 0.50
+    // 0.50 to 0.25
+    // 0.25 to 0.00
+    // 0.00 to -0.25
+    // -0.25 to -0.50
+    // -0.50 to -0.75
+    // -0.75 to inf
+    if (num > 7.5) {
+        return colors[0];
+    }
+    else if (num > 5) {
+        return colors[1];
+    }
+    else if (num > 2.5) {
+        return colors[2];
+    }
+    else if (num > 0) {
+        return colors[3];
+    }
+    else if (num > -2.5) {
+        return colors[4];
+    }
+    else if (num > -5) {
+        return colors[5];
+    }
+    else if (num > -7.5) {
+        return colors[6];
+    }
+    else {
+        return colors[7];
+    }
+}
 
 
 /***/ }),

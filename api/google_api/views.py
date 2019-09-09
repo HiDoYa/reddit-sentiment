@@ -32,13 +32,12 @@ def sentiment_view(request):
             arr_sentences = []
             for sentence in sentiment.sentences:
                 arr_sentences.append({"text": sentence.text.content,
-                                      "score": sentence.sentiment.score})
+                                      "score": round(sentence.sentiment.score * 10)})
 
-            sentiment_dict.update({idx: {"overall_score": sentiment.document_sentiment.score,
+            sentiment_dict.update({idx: {"overall_score": round(sentiment.document_sentiment.score * 10),
                                          "detail": arr_sentences}})
 
     except Exception as e:
-        # TODO Use the returned error to handle correctly in frontend
         return JsonResponse({"error": str(e)})
 
     return JsonResponse({"sentiment_dict": sentiment_dict, "title": title})
@@ -102,7 +101,7 @@ def fetch_posts(request):
 
     # If subreddit DNE
     if not is_comment and len(r["data"]["children"]) == 0:
-        raise Exception("Subreddit DNE")
+        raise Exception("Subreddit Doesn't Exist")
 
     # Get subreddit name or post name
     if is_comment:

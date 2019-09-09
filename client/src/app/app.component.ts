@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   rawInfo: Object;
   loading = false;
   error = false;
+  errorStr: string;
   redditTitle: string;
   showDescription = false;
 
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit {
   }
 
   // Getting sentient analysis info
-  onSentimentInfo(info: Object) {
+  onRawInfo(info: Object) {
     this.rawInfo = info;
   }
 
@@ -39,5 +40,9 @@ export class AppComponent implements OnInit {
 
   onError(error: boolean) {
     this.error = error;
+  }
+
+  onErrorStr(errorStr: string) {
+    this.errorStr = errorStr;
   }
 }

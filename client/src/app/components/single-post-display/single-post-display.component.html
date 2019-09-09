@@ -1,6 +1,6 @@
 <div class="p-4 mt-3 mb-3 single-post">
-  <h5 class="single-line-in-post" placement="right" [ngbTooltip]="titleTipContent" [style.color]="colorize(titleData['score'])">
-    <ng-template #titleTipContent>Score: {{ titleData["score"].toFixed(1) }}</ng-template>
+  <h5 class="single-line-in-post" placement="right" [ngbTooltip]="titleTipContent" [style.color]="color(titleData['score'])">
+    <ng-template #titleTipContent>Score: {{ titleData["score"] }}</ng-template>
     {{ titleData["text"] }}
   </h5>
   <span
@@ -8,9 +8,9 @@
     *ngFor="let data of bodyData"
     placement="right"
     [ngbTooltip]="baseTipContent"
-    [style.color]="colorize(data['score'])"
+    [style.color]="color(data['score'])"
   >
-    <ng-template #baseTipContent>Score: {{ data["score"].toFixed(1) }}</ng-template>
+    <ng-template #baseTipContent>Score: {{ data["score"] }}</ng-template>
     {{ data["text"] }}
   </span>
 </div>

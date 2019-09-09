@@ -17,10 +17,11 @@
   <div class="row m-4 p-4 option-block" (mouseenter)="showDescription = true" (mouseleave)="showDescription = false">
     <div class="col-md-12">
       <app-search-bar
-        (onSentimentInfo)="onSentimentInfo($event)"
+        (onRawInfo)="onRawInfo($event)"
         (onLoading)="onLoading($event)"
         (onError)="onError($event)"
         (onRedditTitle)="onRedditTitle($event)"
+        (onErrorStr)="onErrorStr($event)"
         [loading]="loading"
       ></app-search-bar>
       <div [className]="'description ' + (showDescription ? 'show-css' : 'hide-css')">
@@ -37,6 +38,7 @@
       [rawInfo]="rawInfo"
       [redditTitle]="redditTitle"
       [error]="error"
+      [errorStr]="errorStr"
     ></app-info-display>
   </div>
 </div>

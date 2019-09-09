@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
+import { colorize } from "../../utility/color";
 
 @Component({
   selector: "app-info-display",
@@ -11,6 +12,7 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
   @Input() redditTitle: string;
   @Input() loading: boolean;
   @Input() error: boolean = false;
+  @Input() errorStr: string;
 
   showInfo = false;
   scoreAvg: number;
@@ -56,5 +58,9 @@ export class InfoDisplayComponent implements OnChanges, OnInit {
 
       this.scoreAvg = scoreSum / numberTotal;
     }
+  }
+
+  color(num: number) {
+    return colorize(num);
   }
 }

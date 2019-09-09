@@ -5,7 +5,8 @@
 <ng-template #successDom>
   <div *ngIf="showInfo && !loading">
     <div class="mt-4 mb-4">
-      <h4>Average Score: {{ scoreAvg.toFixed(3) }}</h4>
+      <h4 [style.color]="colorize(scoreAvg)">Average Score: {{ scoreAvg.toFixed(1) }}</h4>
+      <p>Score is from -10 to 10 (very negative to very positive).</p>
     </div>
     <div *ngFor="let info of filteredInfo">
       <app-single-post-display [postData]="info"></app-single-post-display>
@@ -18,4 +19,5 @@
 
 <ng-template #errorDom>
   <div class="mt-4 mb-4">Errors found while getting data.</div>
+  <div>{{ errorStr }}</div>
 </ng-template>

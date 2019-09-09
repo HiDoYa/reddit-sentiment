@@ -10,9 +10,10 @@ import { Observable } from "rxjs";
 export class SearchBarComponent implements OnInit {
   @Input() loading: boolean;
 
-  @Output() onSentimentInfo = new EventEmitter<Object>();
+  @Output() onRawInfo = new EventEmitter<Object>();
   @Output() onLoading = new EventEmitter<Boolean>();
   @Output() onError = new EventEmitter<Boolean>();
+  @Output() onErrorStr = new EventEmitter<Boolean>();
   @Output() onRedditTitle = new EventEmitter<string>();
 
   current_reddit: string = "";
@@ -46,10 +47,11 @@ export class SearchBarComponent implements OnInit {
     promise.subscribe(res => {
       if (res["error"]) {
         this.onError.emit(true);
+        this.onErrorStr.emit(res["error"]);
         this.onLoading.emit(false);
       } else {
         this.onError.emit(false);
-        this.onSentimentInfo.emit(res["sentiment_dict"]);
+        this.onRawInfo.emit(res["sentiment_dict"]);
         this.onRedditTitle.emit(res["title"]);
         this.onLoading.emit(false);
       }
