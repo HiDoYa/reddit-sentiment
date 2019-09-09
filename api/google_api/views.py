@@ -114,11 +114,13 @@ def fetch_posts(request):
     # If comment, add the title and post
     # Then, only take the second arr ele
     if is_comment:
-        texts.append(
-            clean_text(add_sentence_end(
-                r[0]["data"]["children"][0]["data"]["title"])) +
-            clean_text(add_sentence_end(
-                r[0]["data"]["children"][0]["data"]["selftext"])))
+        title = clean_text(add_sentence_end(
+            r[0]["data"]["children"][0]["data"]["title"]))
+        selftext = r[0]["data"]["children"][0]["data"]["selftext"]
+        if selftext != "":
+            selftext = clean_text(add_sentence_end(selftext))
+        texts.append(title + selftext)
+
         r = r[1]
 
     for eachEle in r["data"]["children"]:
