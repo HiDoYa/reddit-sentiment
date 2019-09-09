@@ -5,7 +5,7 @@
 <ng-template #successDom>
   <div *ngIf="showInfo && !loading">
     <div class="mt-4 mb-4">
-      <h4 [style.color]="colorize(scoreAvg)">Average Score: {{ scoreAvg.toFixed(1) }}</h4>
+      <h4 [style.color]="color(scoreAvg)">Average Score: {{ scoreAvg.toFixed(1) }}</h4>
       <p>Score is from -10 to 10 (very negative to very positive).</p>
     </div>
     <div *ngFor="let info of filteredInfo">

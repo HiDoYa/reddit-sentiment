@@ -26,7 +26,8 @@ SECRET_KEY = os.environ.get('REDDIT_SENTIMENT_SECRET', '')
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
-                 'ec2-34-208-65-226.us-west-2.compute.amazonaws.com']
+                 'ec2-34-208-65-226.us-west-2.compute.amazonaws.com',
+                 'www.redditsentiment.com']
 
 
 # Application definition
