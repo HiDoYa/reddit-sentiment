@@ -19,5 +19,3 @@ The webapp is containerized with Docker-Compose and deployed to an AWS EC2 free-
 
 Shows sentiment data for each sentence.
 ![alt text](images/detail.png)
-
-Still in development.
