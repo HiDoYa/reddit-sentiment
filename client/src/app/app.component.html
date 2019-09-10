@@ -1,47 +1,15 @@
+<nav class="navbar navbar-bg">
+  <div class="titleSize">Reddit Sentiment</div>
+  <ul class="navbar-nav navbar-center">
+    <li>
+      <a class="m-3 navLinkSize" routerLink="/" routerLinkActive="active">Home</a>
+    </li>
+    <li>
+      <a class="m-3 navLinkSize" routerLink="/about" routerLinkActive="active">About</a>
+    </li>
+  </ul>
+</nav>
+
 <div class="container" style="text-align:center">
-  <div class="row p-4 title-block">
-    <div class="col"></div>
-    <h1>
-      {{ title }}
-    </h1>
-    <div class="col"></div>
-  </div>
-
-  <div *ngIf="this.redditAuthService.access_token.includes('ERROR')">
-    <p>Error authenticating your reddit access token. Authenticate below.</p>
-    <button class="btn btn-outline-primary m-3" (click)="onReauthClick()">
-      Authenticate
-    </button>
-  </div>
-
-  <div class="row m-4 p-4 option-block" (mouseenter)="showDescription = true" (mouseleave)="showDescription = false">
-    <div class="col-md-12">
-      <app-search-bar
-        (onRawInfo)="onRawInfo($event)"
-        (onLoading)="onLoading($event)"
-        (onError)="onError($event)"
-        (onRedditTitle)="onRedditTitle($event)"
-        (onErrorStr)="onErrorStr($event)"
-        [loading]="loading"
-      ></app-search-bar>
-      <div [className]="'description ' + (showDescription ? 'show-css' : 'hide-css')">
-        <p>Enter the url of the subreddit or the reddit post.</p>
-        <p>Enter the number of posts to analyze.</p>
-        <p>This website requires cookies to be enabled.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="row m-4 main-block">
-    <app-info-display
-      class="fullWidth"
-      [loading]="loading"
-      [rawInfo]="rawInfo"
-      [redditTitle]="redditTitle"
-      [error]="error"
-      [errorStr]="errorStr"
-    ></app-info-display>
-  </div>
+  <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>

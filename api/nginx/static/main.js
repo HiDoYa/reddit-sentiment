@@ -30,7 +30,18 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div class=\"row p-4 title-block\">\n    <div class=\"col\"></div>\n    <h1>\n      {{ title }}\n    </h1>\n    <div class=\"col\"></div>\n  </div>\n\n  <div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n    <p>Error authenticating your reddit access token. Authenticate below.</p>\n    <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n      Authenticate\n    </button>\n  </div>\n\n  <div class=\"row m-4 p-4 option-block\" (mouseenter)=\"showDescription = true\" (mouseleave)=\"showDescription = false\">\n    <div class=\"col-md-12\">\n      <app-search-bar\n        (onRawInfo)=\"onRawInfo($event)\"\n        (onLoading)=\"onLoading($event)\"\n        (onError)=\"onError($event)\"\n        (onRedditTitle)=\"onRedditTitle($event)\"\n        (onErrorStr)=\"onErrorStr($event)\"\n        [loading]=\"loading\"\n      ></app-search-bar>\n      <div [className]=\"'description ' + (showDescription ? 'show-css' : 'hide-css')\">\n        <p>Enter the url of the subreddit or the reddit post.</p>\n        <p>Enter the number of posts to analyze.</p>\n        <p>This website requires cookies to be enabled.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row m-4 main-block\">\n    <app-info-display\n      class=\"fullWidth\"\n      [loading]=\"loading\"\n      [rawInfo]=\"rawInfo\"\n      [redditTitle]=\"redditTitle\"\n      [error]=\"error\"\n      [errorStr]=\"errorStr\"\n    ></app-info-display>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<nav class=\"navbar navbar-bg\">\n  <div class=\"titleSize\">Reddit Sentiment</div>\n  <ul class=\"navbar-nav navbar-center\">\n    <li>\n      <a class=\"m-3 navLinkSize\" routerLink=\"/\" routerLinkActive=\"active\">Home</a>\n    </li>\n    <li>\n      <a class=\"m-3 navLinkSize\" routerLink=\"/about\" routerLinkActive=\"active\">About</a>\n    </li>\n  </ul>\n</nav>\n\n<div class=\"container\" style=\"text-align:center\">\n  <router-outlet></router-outlet>\n</div>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/about-display/about-display.component.html":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/about-display/about-display.component.html ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h4 class=\"p-4\">About</h4>\n<div class=\"row m-4 p-4\">\n  <div class=\"col-md-12\">\n    <p class=\"text-center\">\n      This webapp allows you to put in any subreddit or comment thread into the search bar, and it returns the general \"sentiment\"\n      of the comments and posts. The sorting category and the number of comments/posts to analyze can be customized. \"Sentiment\"\n      just refers to how the sentence comes from or evokes certain feelings/emotions. Sentiment analysis is done by Google Cloud\n      sentiment analysis api.\n    </p>\n    <p>\n      Reddit login is required to get subreddit/comment information from reddit (otherwise, reddit thinks I'm spamming them with a\n      lot of requests).\n    </p>\n    <p class=\"text-center\">This website requires cookies to be enabled.</p>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -42,6 +53,17 @@ module.exports = "<div class=\"container\" style=\"text-align:center\">\n  <div 
 /***/ (function(module, exports) {
 
 module.exports = "<h3 class=\"mt-2\">{{ redditTitle }}</h3>\n\n<div *ngIf=\"error; then errorDom; else successDom\"></div>\n\n<ng-template #successDom>\n  <div *ngIf=\"showInfo && !loading\">\n    <div class=\"mt-4 mb-4\">\n      <h4 [style.color]=\"color(scoreAvg)\">Average Score: {{ scoreAvg.toFixed(1) }}</h4>\n      <p>Score is from -10 to 10 (very negative to very positive).</p>\n    </div>\n    <div *ngFor=\"let info of filteredInfo\">\n      <app-single-post-display [postData]=\"info\"></app-single-post-display>\n    </div>\n  </div>\n  <ngx-spinner bdOpacity=\"0.3\" size=\"medium\" color=\"#fff\" type=\"ball-climbing-dot\" [fullScreen]=\"true\">\n    <p style=\"color: white\">Loading...</p>\n  </ngx-spinner>\n</ng-template>\n\n<ng-template #errorDom>\n  <div class=\"mt-4 mb-4\">Errors found while getting data.</div>\n  <div>{{ errorStr }}</div>\n</ng-template>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/main-display/main-display.component.html":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/main-display/main-display.component.html ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h4 class=\"p-4\">Reddit Sentiment</h4>\n\n<div *ngIf=\"this.redditAuthService.access_token.includes('ERROR')\">\n  <p>Error authenticating your reddit access token. Authenticate below.</p>\n  <button class=\"btn btn-outline-primary m-3\" (click)=\"onReauthClick()\">\n    Authenticate\n  </button>\n</div>\n\n<div class=\"row m-4 p-4 option-block\" (mouseenter)=\"showDescription = true\" (mouseleave)=\"showDescription = false\">\n  <div class=\"col-md-12\">\n    <app-search-bar\n      (onRawInfo)=\"onRawInfo($event)\"\n      (onLoading)=\"onLoading($event)\"\n      (onError)=\"onError($event)\"\n      (onRedditTitle)=\"onRedditTitle($event)\"\n      (onErrorStr)=\"onErrorStr($event)\"\n      [loading]=\"loading\"\n    ></app-search-bar>\n    <div [className]=\"'description ' + (showDescription ? 'show-css' : 'hide-css')\">\n      <p>Enter the url of the subreddit or the reddit post.</p>\n      <p>Enter the number of posts to analyze.</p>\n    </div>\n  </div>\n</div>\n\n<div class=\"row m-4\">\n  <app-info-display\n    class=\"fullWidth\"\n    [loading]=\"loading\"\n    [rawInfo]=\"rawInfo\"\n    [redditTitle]=\"redditTitle\"\n    [error]=\"error\"\n    [errorStr]=\"errorStr\"\n  ></app-info-display>\n</div>\n"
 
 /***/ }),
 
@@ -80,10 +102,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _components_main_display_main_display_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/main-display/main-display.component */ "./src/app/components/main-display/main-display.component.ts");
+/* harmony import */ var _components_about_display_about_display_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/about-display/about-display.component */ "./src/app/components/about-display/about-display.component.ts");
 
 
 
-const routes = [];
+
+
+const routes = [
+    { path: "", component: _components_main_display_main_display_component__WEBPACK_IMPORTED_MODULE_3__["MainDisplayComponent"], pathMatch: "full" },
+    {
+        path: "about",
+        component: _components_about_display_about_display_component__WEBPACK_IMPORTED_MODULE_4__["AboutDisplayComponent"]
+    }
+];
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -104,7 +136,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n\n.fullWidth {\n  width: 100%;\n}\n\n.description {\n  transition: max-height 0.1s ease-in-out;\n}\n\n.show-css {\n  max-height: 15em;\n  overflow-y: hidden;\n}\n\n.hide-css {\n  max-height: 0em;\n  overflow-y: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU1BO0VBQ0UsNEJBQUE7QUNMRjs7QURRQTtFQUNFLFdBQUE7QUNMRjs7QURRQTtFQUNFLHVDQUFBO0FDTEY7O0FEUUE7RUFDRSxnQkFBQTtFQUNBLGtCQUFBO0FDTEY7O0FEUUE7RUFDRSxlQUFBO0VBQ0Esa0JBQUE7QUNMRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aXRsZS1ibG9jayB7XG59XG5cbi5tYWluLWJsb2NrIHtcbn1cblxuLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmRlc2NyaXB0aW9uIHtcbiAgdHJhbnNpdGlvbjogbWF4LWhlaWdodCAwLjFzIGVhc2UtaW4tb3V0O1xufVxuXG4uc2hvdy1jc3Mge1xuICBtYXgtaGVpZ2h0OiAxNWVtO1xuICBvdmVyZmxvdy15OiBoaWRkZW47XG59XG5cbi5oaWRlLWNzcyB7XG4gIG1heC1oZWlnaHQ6IDBlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufVxuIiwiLm9wdGlvbi1ibG9jayB7XG4gIGJvcmRlcjogMC4xNWVtIHNvbGlkICNiN2I3Yjc7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmRlc2NyaXB0aW9uIHtcbiAgdHJhbnNpdGlvbjogbWF4LWhlaWdodCAwLjFzIGVhc2UtaW4tb3V0O1xufVxuXG4uc2hvdy1jc3Mge1xuICBtYXgtaGVpZ2h0OiAxNWVtO1xuICBvdmVyZmxvdy15OiBoaWRkZW47XG59XG5cbi5oaWRlLWNzcyB7XG4gIG1heC1oZWlnaHQ6IDBlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufSJdfQ== */"
+module.exports = ".navbar-bg {\n  background-color: #2c3157;\n  flex-direction: row;\n  padding: 1.2em;\n}\n\n.navbar-center {\n  justify-content: center;\n  flex-direction: row;\n}\n\n.navLinkSize {\n  font-size: 1.2em;\n  color: #a0a4d7;\n}\n\n.titleSize {\n  font-size: 1.2em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UseUJBQUE7RUFDQSxtQkFBQTtFQUNBLGNBQUE7QUNDRjs7QURFQTtFQUNFLHVCQUFBO0VBQ0EsbUJBQUE7QUNDRjs7QURFQTtFQUNFLGdCQUFBO0VBQ0EsY0FBQTtBQ0NGOztBREVBO0VBQ0UsZ0JBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXZiYXItYmcge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMmMzMTU3O1xuICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICBwYWRkaW5nOiAxLjJlbTtcbn1cblxuLm5hdmJhci1jZW50ZXIge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcbn1cblxuLm5hdkxpbmtTaXplIHtcbiAgZm9udC1zaXplOiAxLjJlbTtcbiAgY29sb3I6ICNhMGE0ZDc7XG59XG5cbi50aXRsZVNpemUge1xuICBmb250LXNpemU6IDEuMmVtO1xufVxuIiwiLm5hdmJhci1iZyB7XG4gIGJhY2tncm91bmQtY29sb3I6ICMyYzMxNTc7XG4gIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gIHBhZGRpbmc6IDEuMmVtO1xufVxuXG4ubmF2YmFyLWNlbnRlciB7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBmbGV4LWRpcmVjdGlvbjogcm93O1xufVxuXG4ubmF2TGlua1NpemUge1xuICBmb250LXNpemU6IDEuMmVtO1xuICBjb2xvcjogI2EwYTRkNztcbn1cblxuLnRpdGxlU2l6ZSB7XG4gIGZvbnQtc2l6ZTogMS4yZW07XG59Il19 */"
 
 /***/ }),
 
@@ -120,44 +152,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/reddit-auth.service */ "./src/app/services/reddit-auth.service.ts");
-
 
 
 let AppComponent = class AppComponent {
-    constructor(redditAuthService) {
-        this.redditAuthService = redditAuthService;
-        this.title = "Reddit Sentiment";
-        this.loading = false;
-        this.error = false;
-        this.showDescription = false;
-    }
+    constructor() { }
     ngOnInit() { }
-    onReauthClick() {
-        this.redditAuthService.resetCookie();
-        this.redditAuthService.gotoRedditOauth();
-    }
-    // Getting sentient analysis info
-    onRawInfo(info) {
-        this.rawInfo = info;
-    }
-    // If loading
-    onLoading(loading) {
-        this.loading = loading;
-    }
-    onRedditTitle(redditTitle) {
-        this.redditTitle = redditTitle;
-    }
-    onError(error) {
-        this.error = error;
-    }
-    onErrorStr(errorStr) {
-        this.errorStr = errorStr;
-    }
 };
-AppComponent.ctorParameters = () => [
-    { type: _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__["RedditAuthService"] }
-];
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: "app-root",
@@ -194,6 +194,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/search-bar/search-bar.component */ "./src/app/components/search-bar/search-bar.component.ts");
 /* harmony import */ var _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/info-display/info-display.component */ "./src/app/components/info-display/info-display.component.ts");
 /* harmony import */ var _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/single-post-display/single-post-display.component */ "./src/app/components/single-post-display/single-post-display.component.ts");
+/* harmony import */ var _components_main_display_main_display_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/main-display/main-display.component */ "./src/app/components/main-display/main-display.component.ts");
+/* harmony import */ var _components_about_display_about_display_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/about-display/about-display.component */ "./src/app/components/about-display/about-display.component.ts");
+
+
 
 
 
@@ -212,12 +216,54 @@ let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_11__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_12__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_13__["SinglePostDisplayComponent"]],
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"], _components_search_bar_search_bar_component__WEBPACK_IMPORTED_MODULE_11__["SearchBarComponent"], _components_info_display_info_display_component__WEBPACK_IMPORTED_MODULE_12__["InfoDisplayComponent"], _components_single_post_display_single_post_display_component__WEBPACK_IMPORTED_MODULE_13__["SinglePostDisplayComponent"], _components_main_display_main_display_component__WEBPACK_IMPORTED_MODULE_14__["MainDisplayComponent"], _components_about_display_about_display_component__WEBPACK_IMPORTED_MODULE_15__["AboutDisplayComponent"]],
         imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"], ngx_spinner__WEBPACK_IMPORTED_MODULE_8__["NgxSpinnerModule"]],
         providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"]],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]]
     })
 ], AppModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/about-display/about-display.component.scss":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/about-display/about-display.component.scss ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvYWJvdXQtZGlzcGxheS9hYm91dC1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/about-display/about-display.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/about-display/about-display.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: AboutDisplayComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AboutDisplayComponent", function() { return AboutDisplayComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let AboutDisplayComponent = class AboutDisplayComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+};
+AboutDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-about-display',
+        template: __webpack_require__(/*! raw-loader!./about-display.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/about-display/about-display.component.html"),
+        styles: [__webpack_require__(/*! ./about-display.component.scss */ "./src/app/components/about-display/about-display.component.scss")]
+    })
+], AboutDisplayComponent);
 
 
 
@@ -321,6 +367,78 @@ InfoDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         styles: [__webpack_require__(/*! ./info-display.component.scss */ "./src/app/components/info-display/info-display.component.scss")]
     })
 ], InfoDisplayComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/main-display/main-display.component.scss":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/main-display/main-display.component.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".option-block {\n  border: 0.15em solid #b7b7b7;\n}\n\n.fullWidth {\n  width: 100%;\n}\n\n.description {\n  transition: max-height 0.1s ease-in-out;\n}\n\n.show-css {\n  max-height: 15em;\n  overflow-y: hidden;\n}\n\n.hide-css {\n  max-height: 0em;\n  overflow-y: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oaWRveWEvQ29kZS9yZWRkaXQtc2VudGltZW50L2NsaWVudC9zcmMvYXBwL2NvbXBvbmVudHMvbWFpbi1kaXNwbGF5L21haW4tZGlzcGxheS5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvY29tcG9uZW50cy9tYWluLWRpc3BsYXkvbWFpbi1kaXNwbGF5LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsNEJBQUE7QUNDRjs7QURFQTtFQUNFLFdBQUE7QUNDRjs7QURFQTtFQUNFLHVDQUFBO0FDQ0Y7O0FERUE7RUFDRSxnQkFBQTtFQUNBLGtCQUFBO0FDQ0Y7O0FERUE7RUFDRSxlQUFBO0VBQ0Esa0JBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbWFpbi1kaXNwbGF5L21haW4tZGlzcGxheS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcHRpb24tYmxvY2sge1xuICBib3JkZXI6IDAuMTVlbSBzb2xpZCAjYjdiN2I3O1xufVxuXG4uZnVsbFdpZHRoIHtcbiAgd2lkdGg6IDEwMCU7XG59XG5cbi5kZXNjcmlwdGlvbiB7XG4gIHRyYW5zaXRpb246IG1heC1oZWlnaHQgMC4xcyBlYXNlLWluLW91dDtcbn1cblxuLnNob3ctY3NzIHtcbiAgbWF4LWhlaWdodDogMTVlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufVxuXG4uaGlkZS1jc3Mge1xuICBtYXgtaGVpZ2h0OiAwZW07XG4gIG92ZXJmbG93LXk6IGhpZGRlbjtcbn1cbiIsIi5vcHRpb24tYmxvY2sge1xuICBib3JkZXI6IDAuMTVlbSBzb2xpZCAjYjdiN2I3O1xufVxuXG4uZnVsbFdpZHRoIHtcbiAgd2lkdGg6IDEwMCU7XG59XG5cbi5kZXNjcmlwdGlvbiB7XG4gIHRyYW5zaXRpb246IG1heC1oZWlnaHQgMC4xcyBlYXNlLWluLW91dDtcbn1cblxuLnNob3ctY3NzIHtcbiAgbWF4LWhlaWdodDogMTVlbTtcbiAgb3ZlcmZsb3cteTogaGlkZGVuO1xufVxuXG4uaGlkZS1jc3Mge1xuICBtYXgtaGVpZ2h0OiAwZW07XG4gIG92ZXJmbG93LXk6IGhpZGRlbjtcbn0iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/main-display/main-display.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/components/main-display/main-display.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: MainDisplayComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainDisplayComponent", function() { return MainDisplayComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/reddit-auth.service */ "./src/app/services/reddit-auth.service.ts");
+
+
+
+let MainDisplayComponent = class MainDisplayComponent {
+    constructor(redditAuthService) {
+        this.redditAuthService = redditAuthService;
+        this.loading = false;
+        this.error = false;
+        this.showDescription = false;
+    }
+    ngOnInit() { }
+    onReauthClick() {
+        this.redditAuthService.resetCookie();
+        this.redditAuthService.gotoRedditOauth();
+    }
+    // Getting sentient analysis info
+    onRawInfo(info) {
+        this.rawInfo = info;
+    }
+    // If loading
+    onLoading(loading) {
+        this.loading = loading;
+    }
+    onRedditTitle(redditTitle) {
+        this.redditTitle = redditTitle;
+    }
+    onError(error) {
+        this.error = error;
+    }
+    onErrorStr(errorStr) {
+        this.errorStr = errorStr;
+    }
+};
+MainDisplayComponent.ctorParameters = () => [
+    { type: _services_reddit_auth_service__WEBPACK_IMPORTED_MODULE_2__["RedditAuthService"] }
+];
+MainDisplayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: "app-main-display",
+        template: __webpack_require__(/*! raw-loader!./main-display.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/main-display/main-display.component.html"),
+        styles: [__webpack_require__(/*! ./main-display.component.scss */ "./src/app/components/main-display/main-display.component.scss")]
+    })
+], MainDisplayComponent);
 
 
 

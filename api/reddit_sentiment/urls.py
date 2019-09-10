@@ -23,5 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/analyze', sentiment_view),
     path('api/auth', auth_view),
-    path('', reddit_view)
+
+    path('', reddit_view),
+    path('about/', reddit_view)
 ]

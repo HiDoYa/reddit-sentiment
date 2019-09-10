@@ -1,27 +1,19 @@
-.title-block {
+.navbar-bg {
+  background-color: #2c3157;
+  flex-direction: row;
+  padding: 1.2em;
 }
 
-.main-block {
+.navbar-center {
+  justify-content: center;
+  flex-direction: row;
 }
 
-.option-block {
-  border: 0.15em solid #b7b7b7;
+.navLinkSize {
+  font-size: 1.2em;
+  color: #a0a4d7;
 }
 
-.fullWidth {
-  width: 100%;
-}
-
-.description {
-  transition: max-height 0.1s ease-in-out;
-}
-
-.show-css {
-  max-height: 15em;
-  overflow-y: hidden;
-}
-
-.hide-css {
-  max-height: 0em;
-  overflow-y: hidden;
+.titleSize {
+  font-size: 1.2em;
 }

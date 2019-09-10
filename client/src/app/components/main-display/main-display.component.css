@@ -1,0 +1,22 @@
+.option-block {
+  border: 0.15em solid #b7b7b7;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.description {
+  -webkit-transition: max-height 0.1s ease-in-out;
+  transition: max-height 0.1s ease-in-out;
+}
+
+.show-css {
+  max-height: 15em;
+  overflow-y: hidden;
+}
+
+.hide-css {
+  max-height: 0em;
+  overflow-y: hidden;
+}

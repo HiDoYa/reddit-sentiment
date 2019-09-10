@@ -1,0 +1,36 @@
+<h4 class="p-4">Reddit Sentiment</h4>
+
+<div *ngIf="this.redditAuthService.access_token.includes('ERROR')">
+  <p>Error authenticating your reddit access token. Authenticate below.</p>
+  <button class="btn btn-outline-primary m-3" (click)="onReauthClick()">
+    Authenticate
+  </button>
+</div>
+
+<div class="row m-4 p-4 option-block" (mouseenter)="showDescription = true" (mouseleave)="showDescription = false">
+  <div class="col-md-12">
+    <app-search-bar
+      (onRawInfo)="onRawInfo($event)"
+      (onLoading)="onLoading($event)"
+      (onError)="onError($event)"
+      (onRedditTitle)="onRedditTitle($event)"
+      (onErrorStr)="onErrorStr($event)"
+      [loading]="loading"
+    ></app-search-bar>
+    <div [className]="'description ' + (showDescription ? 'show-css' : 'hide-css')">
+      <p>Enter the url of the subreddit or the reddit post.</p>
+      <p>Enter the number of posts to analyze.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row m-4">
+  <app-info-display
+    class="fullWidth"
+    [loading]="loading"
+    [rawInfo]="rawInfo"
+    [redditTitle]="redditTitle"
+    [error]="error"
+    [errorStr]="errorStr"
+  ></app-info-display>
+</div>
