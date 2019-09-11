@@ -679,7 +679,7 @@ let RedditAuthService = class RedditAuthService {
             `client_id=4YzuQQE-yhj8wQ` +
             `&response_type=code` +
             `&state=state` +
-            `&redirect_uri=${window.location.origin}` +
+            `&redirect_uri=www.redditsentiment.com` +
             `&duration=temporary` +
             `&scope=read`);
     }
