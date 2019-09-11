@@ -69,7 +69,7 @@ export class RedditAuthService {
         `client_id=4YzuQQE-yhj8wQ` +
         `&response_type=code` +
         `&state=state` +
-        `&redirect_uri=www.redditsentiment.com` +
+        `&redirect_uri=http://www.redditsentiment.com` +
         `&duration=temporary` +
         `&scope=read`
     );
